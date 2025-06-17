@@ -122,6 +122,7 @@
             width: 90%;
             height: auto;
             z-index: 1;
+            position: relative; /* Para posicionar o mini texto */
         }
 
         /* Estilo para o título principal (H1) */
@@ -191,6 +192,30 @@
             100% { opacity: 1; transform: scale(1.02); }
         }
 
+        /* Mini texto de humor autodepreciativo na tela inicial */
+        #initialScreenMiniText {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-subheading);
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.4); /* Bem sutil */
+            text-shadow: none;
+            opacity: 0;
+            animation: fadeInOut 8s infinite ease-in-out;
+            pointer-events: none; /* Garante que não interfira com cliques */
+            white-space: nowrap; /* Impede que o texto quebre a linha */
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 0.4; }
+            40% { opacity: 0.4; }
+            50% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
         /* Contêiner para as partículas de fundo (na tela inicial) */
         .particles {
             position: absolute;
@@ -242,16 +267,16 @@
 
         /* Contêiner da showcase de modos (oculta inicialmente) */
         #modeShowcase {
-            display: none; /* Inicialmente oculto */
+            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2.5rem;
             width: 90%;
-            max-width: 1400px; /* Aumentado para melhor aproveitamento do espaço */
-            min-height: 100vh; /* Ocupa a altura total da viewport */
+            max-width: 1400px;
+            min-height: 100vh;
             z-index: 1;
-            box-sizing: border-box; /* Inclui padding e borda na largura/altura total */
+            box-sizing: border-box;
         }
         #modeShowcase h2 {
             font-family: var(--font-heading);
@@ -272,30 +297,30 @@
             display: flex;
             gap: 20px;
             margin-bottom: 4rem;
-            flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas menores */
+            flex-wrap: wrap;
             justify-content: center;
         }
         /* Estilo dos botões de modo - ATUALIZADO para usar GIFs */
         .mode-button {
-            width: 150px; /* Largura fixa para os botões */
-            height: 150px; /* Altura fixa para os botões */
-            background-color: rgba(0, 0, 0, 0.6); /* Fundo sutil para o texto e borda */
-            background-size: cover; /* Ajusta o GIF para cobrir o botão */
-            background-position: center; /* Centraliza o GIF */
+            width: 150px;
+            height: 150px;
+            background-color: rgba(0, 0, 0, 0.6);
+            background-size: cover;
+            background-position: center;
             border: 2px solid var(--current-mode-primary);
-            color: var(--color-secondary-white); /* Cor do texto padrão (para o nome) */
+            color: var(--color-secondary-white);
             font-family: var(--font-subheading);
             font-size: 1.1em;
             border-radius: 0.75rem;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 0 15px var(--current-mode-primary);
-            display: flex; /* Para centralizar o texto */
+            display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Sombra para o texto sobre o GIF */
-            position: relative; /* Para garantir que o texto esteja sobre o background */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            position: relative;
         }
         /* Efeito no hover e ativo para os botões de GIF */
         .mode-button:hover {
@@ -305,7 +330,7 @@
         .mode-button.active {
             transform: scale(1.1);
             box-shadow: 0 0 30px var(--current-mode-primary), 0 0 15px var(--current-mode-secondary);
-            border-color: var(--color-primary-green); /* Borda de destaque para o ativo */
+            border-color: var(--color-primary-green);
         }
 
         /* Reprodutor de áudio na showcase de modos */
@@ -320,8 +345,8 @@
 
         /* Botão "Ir para nossa história" */
         .go-to-story-button {
-            background: var(--current-mode-primary); /* Cor do tema */
-            color: var(--color-secondary-black); /* Texto escuro para contraste */
+            background: var(--current-mode-primary);
+            color: var(--color-secondary-black);
             padding: 1.2rem 2.5rem;
             font-size: 1.2em;
             font-family: var(--font-heading);
@@ -330,7 +355,7 @@
             border: none;
             box-shadow: 0 0 20px var(--current-mode-primary), 0 5px 15px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
-            margin-top: 3rem; /* Espaçamento do player de áudio */
+            margin-top: 3rem;
         }
         .go-to-story-button:hover {
             transform: translateY(-3px) scale(1.02);
@@ -339,7 +364,7 @@
 
         /* Seção da História de Fotos */
         #ourStorySection {
-            display: none; /* Oculta por padrão */
+            display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -348,9 +373,9 @@
             border-radius: 1.5rem;
             box-shadow: 0 0 50px var(--current-mode-primary), 0 0 20px var(--current-mode-secondary);
             text-align: center;
-            max-width: 1000px; /* Aumentado para melhor aproveitamento do espaço */
+            max-width: 1000px;
             width: 90%;
-            min-height: 80vh; /* Altura mínima para a seção */
+            min-height: 80vh;
             z-index: 1;
             box-sizing: border-box;
         }
@@ -364,25 +389,25 @@
         #storyPhotoContainer {
             position: relative;
             width: 100%;
-            max-width: 600px; /* Tamanho máximo do contêiner da foto */
+            max-width: 600px;
             margin-bottom: 1.5rem;
         }
         #storyPhoto {
-            width: 100%; /* Garante que a imagem ocupe a largura total do contêiner */
-            height: 400px; /* ALTURA FIXA PARA A IMAGEM */
-            object-fit: contain; /* ALTERADO: Garante que a imagem se ajuste totalmente sem cortar */
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
             border-radius: 0.75rem;
             border: 4px solid var(--current-mode-primary);
             box-shadow: 0 0 25px var(--current-mode-primary), 0 0 10px var(--current-mode-secondary);
-            transition: opacity 0.5s ease-in-out; /* Transição para fotos */
+            transition: opacity 0.5s ease-in-out;
         }
         #storyCaption {
-            font-family: var(--font-subheading); /* ALTERADO: Usando Share Tech Mono para a legenda */
+            font-family: var(--font-subheading);
             font-size: 1.1em;
             line-height: 1.6;
             color: var(--color-secondary-white);
             margin-bottom: 2rem;
-            min-height: 60px; /* Garante espaço para legendas mais longas */
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -419,7 +444,7 @@
             border-radius: 0.5rem;
             cursor: pointer;
             border: 2px solid var(--color-secondary-white);
-            margin-top: 2rem; /* Ajustado para subir o botão */
+            margin-top: 2rem;
             transition: all 0.3s ease;
         }
         #backToModesButton:hover {
@@ -430,87 +455,158 @@
 
         /* Botão Mute/Unmute - Global */
         #muteButton {
-            display: none; /* Oculto inicialmente, aparece com a showcase de modos */
-            position: fixed; /* Fixado na tela */
+            display: none;
+            position: fixed;
             top: 20px;
             right: 20px;
             background-color: rgba(0, 0, 0, 0.6);
             border: 2px solid var(--current-mode-primary);
-            border-radius: 50%; /* Botão circular */
-            width: 60px; /* Tamanho do botão */
+            border-radius: 50%;
+            width: 60px;
             height: 60px;
             justify-content: center;
             align-items: center;
             cursor: pointer;
             box-shadow: 0 0 15px var(--current-mode-primary);
             transition: all 0.3s ease;
-            z-index: 50; /* Acima de outros elementos */
+            z-index: 50;
         }
         #muteButton:hover {
             transform: scale(1.1);
             box-shadow: 0 0 25px var(--current-mode-primary);
         }
         #muteButton img {
-            width: 35px; /* Tamanho do ícone da Sona */
+            width: 35px;
             height: 35px;
             transition: opacity 0.3s ease;
         }
         #muteButton.muted img {
-            opacity: 0.4; /* Opacidade reduzida quando mutado */
-            /* filter: grayscale(100%);  Opcional: Descolorir quando mutado */
+            opacity: 0.4;
         }
 
-        /* 4. Pergunta Sem Resposta (Tela Solo) */
+        /* 4. Pergunta Sem Resposta (Tela Solo) - AJUSTES PARA O SLIDER */
         #unansweredQuestionScreen {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 2.5rem;
             text-align: center;
-            width: 100%;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.8); /* Fundo bem escuro */
-            z-index: 10; /* Acima da camada de partículas */
-            opacity: 0; /* Começa invisível para fade-in */
+            width: 90%;
+            max-width: 800px;
+            height: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 1.5rem;
+            box-shadow: 0 0 50px rgba(138, 43, 226, 0.5), 0 0 20px rgba(0, 229, 255, 0.3);
+            z-index: 10;
+            opacity: 0;
             transition: opacity 1s ease-in-out;
+            position: relative;
         }
         #unansweredQuestionScreen.active {
             opacity: 1;
         }
-        #unansweredQuestionScreen p {
+        #unansweredQuestionScreen h1 {
             font-family: var(--font-heading);
-            font-size: 3.5em;
-            color: var(--color-secondary-white);
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-            animation: floatText 5s infinite alternate ease-in-out; /* Flutuação suave */
-            line-height: 1.3;
+            font-size: 3em;
+            color: var(--color-primary-blue);
+            text-shadow: 0 0 15px var(--color-primary-blue), 0 0 30px var(--color-primary-purple);
+            margin-bottom: 2rem;
+            line-height: 1.2;
         }
-        @keyframes floatText {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-        #continueButtonSolo {
-            margin-top: 1.5rem; /* Espaçamento da mensagem */
-            padding: 0.8rem 1.5rem;
-            font-size: 1em;
+        #unansweredQuestionScreen p.chuta-ai {
             font-family: var(--font-subheading);
-            background-color: rgba(255, 255, 255, 0.1);
-            color: var(--color-secondary-white);
-            border: 1px solid var(--color-secondary-white);
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            font-size: 1.5em;
+            color: var(--color-primary-magenta);
+            text-shadow: 0 0 10px var(--color-primary-magenta);
+            margin-bottom: 1.5rem;
         }
-        #continueButtonSolo:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
+        #sliderContainer {
+            width: 80%;
+            max-width: 500px;
+            margin-bottom: 2rem;
+            position: relative;
         }
-        /* Estilo para o novo botão "Ouvir mensagem" */
-        #playUnansweredMessageButton {
-            background: linear-gradient(90deg, var(--current-mode-primary), var(--current-mode-secondary));
-            color: var(--color-secondary-black);
+        #significanceSlider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 15px;
+            background: linear-gradient(to right, var(--color-primary-green) 0%, var(--color-primary-blue) 100%);
+            border-radius: 8px;
+            outline: none;
+            transition: background 0.2s ease-in-out;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        #significanceSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            background: var(--color-secondary-white);
+            border: 3px solid var(--color-primary-magenta);
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: 0 0 15px var(--color-primary-magenta), 0 0 5px var(--color-primary-blue);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        #significanceSlider::-moz-range-thumb {
+            width: 30px;
+            height: 30px;
+            background: var(--color-secondary-white);
+            border: 3px solid var(--color-primary-magenta);
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: 0 0 15px var(--color-primary-magenta), 0 0 5px var(--color-primary-blue);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        #significanceSlider::-webkit-slider-thumb:active {
+            cursor: grabbing;
+            background: var(--color-primary-green);
+            box-shadow: 0 0 20px var(--color-primary-green), 0 0 8px var(--color-primary-blue);
+        }
+        #significanceSlider::-moz-range-thumb:active {
+            cursor: grabbing;
+            background: var(--color-primary-green);
+            box-shadow: 0 0 20px var(--color-primary-green), 0 0 8px var(--color-primary-blue);
+        }
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: absolute;
+            top: 100%;
+            font-family: var(--font-subheading);
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+            padding-top: 5px;
+        }
+        /* Ajuste para 0% e 100% */
+        .slider-labels span:first-child { transform: translateX(0%); }
+        .slider-labels span:last-child { transform: translateX(-100%); }
+
+        .slider-value-display {
+            font-family: var(--font-subheading);
+            font-size: 1.8em;
+            color: var(--color-primary-green);
+            text-shadow: 0 0 8px var(--color-primary-green);
+            margin-bottom: 1rem;
+            min-height: 1.2em;
+        }
+        .slider-reaction-text {
+            font-family: var(--font-body);
+            font-size: 1.2em;
+            color: var(--color-secondary-orange);
+            text-shadow: 0 0 5px var(--color-secondary-orange);
+            min-height: 2em;
+            margin-top: 0.5rem;
+            line-height: 1.4;
+        }
+
+        /* Botões "Ouvir mensagem" e "Continuar" */
+        #playUnansweredMessageButton,
+        #continueButtonSolo {
+            display: none; /* Ocultos inicialmente */
+            margin-top: 1rem; /* Espaçamento entre eles */
             padding: 1rem 2rem;
             font-size: 1em;
             font-family: var(--font-subheading);
@@ -518,17 +614,31 @@
             cursor: pointer;
             border: none;
             box-shadow: 0 0 15px var(--current-mode-primary), 0 5px 10px rgba(0, 0, 0, 0.3);
-            margin-top: 1.5rem; /* Espaçamento da mensagem */
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        #playUnansweredMessageButton:hover {
+        #playUnansweredMessageButton:hover,
+        #continueButtonSolo:hover {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 0 25px var(--current-mode-primary), 0 8px 15px rgba(0, 0, 0, 0.4);
         }
+        /* Estilo específico para o botão de continuar (para diferenciá-lo um pouco) */
+        #continueButtonSolo {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--color-secondary-white);
+            border: 1px solid var(--color-secondary-white);
+            box-shadow: none; /* remove o shadow primário para ser mais sutil */
+        }
+        #continueButtonSolo:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--color-secondary-white);
+        }
+
+
         /* Partículas para esta tela - sutilmente paradas */
         #unansweredQuestionScreen + .particles .particle {
-            animation-duration: 20s !important; /* Movimento muito lento */
-            opacity: 0.2 !important; /* Quase transparente */
+            animation-duration: 20s !important;
+            opacity: 0.2 !important;
         }
 
         /* 5. Parte Irritantemente Fofa (Tela Rosa/Glitch Coração) */
@@ -541,12 +651,11 @@
             text-align: center;
             width: 100%;
             height: 100vh;
-            background-color: var(--color-primary-magenta); /* Fundo rosa neon */
+            background-color: var(--color-primary-magenta);
             position: relative;
             z-index: 10;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            /* Corações pixelados ou com leve glitch - Exemplo com pseudo-elementos */
             background-image: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px),
                               radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
             background-size: 20px 20px;
@@ -558,7 +667,7 @@
         }
         @keyframes backgroundGlitch {
             0% { background-position: 0 0, 10px 10px; }
-            100% { background-position: 2px 2px, 12px 12px; } /* Leve deslocamento para glitch */
+            100% { background-position: 2px 2px, 12px 12px; }
         }
         #cutePartScreen p {
             font-family: var(--font-heading);
@@ -590,6 +699,107 @@
             box-shadow: 0 0 30px var(--color-primary-green), 0 8px 20px rgba(0, 0, 0, 0.4);
         }
 
+        /* NOVO QUIZ DE COMIDA */
+        #foodQuizScreen {
+            display: none; /* Oculto por padrão */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 1.5rem;
+            box-shadow: 0 0 50px var(--color-primary-blue), 0 0 20px var(--color-primary-purple);
+            text-align: center;
+            max-width: 900px;
+            width: 90%;
+            height: auto;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        #foodQuizScreen.active {
+            opacity: 1;
+        }
+        #foodQuizScreen h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5em;
+            color: var(--color-primary-blue);
+            text-shadow: 0 0 15px var(--color-primary-blue), 0 0 30px var(--color-primary-purple);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+        #foodOptionsContainer {
+            display: flex;
+            flex-direction: row; /* Começa como linha */
+            flex-wrap: wrap; /* Quebra para próxima linha se necessário */
+            gap: 15px;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        .food-option-button {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: var(--color-secondary-white);
+            border: 2px solid var(--color-primary-green);
+            padding: 1rem 2rem;
+            font-family: var(--font-subheading);
+            font-size: 1.1em;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--color-primary-green);
+            flex-grow: 1; /* Permite que os botões cresçam */
+            min-width: 200px; /* Largura mínima para botões */
+            max-width: 45%; /* Para 2 colunas em telas maiores */
+        }
+        .food-option-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 20px var(--color-primary-green), 0 0 8px var(--color-primary-blue);
+        }
+        #quizFeedback {
+            text-align: center;
+            color: var(--color-secondary-white);
+            font-family: var(--font-body);
+            font-size: 1.2em;
+            margin-top: 1.5rem;
+            min-height: 150px; /* Garante espaço para imagem e texto */
+        }
+        #quizFeedback img {
+            max-width: 100%;
+            height: auto;
+            max-height: 300px; /* Limita a altura da imagem */
+            border-radius: 0.75rem;
+            border: 3px solid var(--color-primary-magenta);
+            box-shadow: 0 0 20px var(--color-primary-magenta);
+            margin-top: 1rem;
+            display: block; /* Garante que a imagem centralize */
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0; /* Para animação de fade-in */
+            transition: opacity 0.5s ease-in-out;
+        }
+        #quizFeedback img.show {
+            opacity: 1;
+        }
+        #continueQuizButton {
+            display: none; /* Oculto até a resposta ser dada */
+            background: linear-gradient(90deg, var(--color-primary-blue), var(--color-primary-magenta));
+            color: var(--color-secondary-black);
+            padding: 1rem 2.5rem;
+            font-size: 1.2em;
+            font-family: var(--font-heading);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 20px var(--color-primary-blue), 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-top: 2rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #continueQuizButton:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 30px var(--color-primary-blue), 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+
         /* Pop-up "Erro de Sistema: Detecção de Drama Excessivo" */
         #dramaDetectedModal {
             display: none;
@@ -612,7 +822,7 @@
         }
         .drama-content {
             background-color: #1a082e;
-            border: 3px solid #FF0000; /* Borda vermelha de erro */
+            border: 3px solid #FF0000;
             border-radius: 1rem;
             padding: 2rem;
             text-align: center;
@@ -630,13 +840,13 @@
             height: auto;
             border-radius: 0.5rem;
             margin-bottom: 1.5rem;
-            border: 2px solid #FF8C00; /* Borda laranja */
+            border: 2px solid #FF8C00;
             box-shadow: 0 0 15px #FF8C00;
         }
         .drama-content p {
             font-family: var(--font-subheading);
             font-size: 1.2em;
-            color: #FF8C00; /* Laranja fluorescente */
+            color: #FF8C00;
             text-shadow: 0 0 5px #FF8C00;
             margin-bottom: 1.5rem;
         }
@@ -655,7 +865,7 @@
         }
         /* Botão de repetir mensagem do Clóvis */
         #repeatClovisMessageButton {
-            background: linear-gradient(90deg, #FF8C00, #FFD700); /* Laranja para Amarelo */
+            background: linear-gradient(90deg, #FF8C00, #FFD700);
             color: var(--color-secondary-black);
             padding: 0.7rem 1.2rem;
             font-size: 0.9em;
@@ -665,7 +875,7 @@
             border: none;
             box-shadow: 0 0 10px #FF8C00, 0 2px 5px rgba(0, 0, 0, 0.2);
             margin-top: 1rem;
-            display: none; /* Oculto por padrão */
+            display: none;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         #repeatClovisMessageButton:hover {
@@ -684,7 +894,7 @@
             text-align: center;
             width: 100%;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.9); /* Fundo escuro */
+            background-color: rgba(0, 0, 0, 0.9);
             z-index: 10;
             opacity: 0;
             transition: opacity 1s ease-in-out;
@@ -704,15 +914,15 @@
             cursor: pointer;
             border: none;
             box-shadow: 0 0 25px var(--color-primary-magenta), 0 0 10px var(--color-primary-blue);
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; /* Resposta rápida */
+            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
             margin-top: 5rem;
         }
         #stubbornButton:hover {
-            transform: scale(1.01); /* Quase sem movimento no hover */
+            transform: scale(1.01);
             box-shadow: 0 0 30px var(--color-primary-magenta), 0 0 15px var(--color-primary-blue);
         }
         #stubbornButton:active {
-            transform: scale(0.98); /* Pequeno "afundamento" no clique */
+            transform: scale(0.98);
         }
         #stubbornNavigationScreen p {
             font-family: var(--font-subheading);
@@ -720,11 +930,148 @@
             color: var(--color-secondary-white);
             text-shadow: 0 0 8px var(--color-primary-green);
             margin-bottom: 2rem;
-            min-height: 2em; /* Para evitar que o texto mude o layout */
+            min-height: 2em;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
+        /* NOVA TELA: HUMOR AUTODEPRECIATIVO */
+        #selfDeprecatingScreen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            text-align: center;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        #selfDeprecatingScreen.active {
+            opacity: 1;
+        }
+        #selfDeprecatingScreen p {
+            font-family: var(--font-body);
+            font-size: 2.5em;
+            color: var(--color-secondary-white);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            line-height: 1.5;
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+        #continueSelfDeprecatingButton {
+            background: linear-gradient(90deg, var(--color-primary-magenta), var(--color-primary-green));
+            color: var(--color-secondary-black);
+            padding: 1.2rem 2.5rem;
+            font-size: 1.2em;
+            font-family: var(--font-heading);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 20px var(--color-primary-magenta), 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #continueSelfDeprecatingButton:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 30px var(--color-primary-magenta), 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* NOVO MODAL: ERRO DE SISTEMA: EXPOSIÇÃO NÃO AUTORIZADA */
+        #unauthorizedExposureModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        #unauthorizedExposureModal.active {
+            opacity: 1;
+        }
+        /* Conteúdo interno do modal */
+        #unauthorizedExposureScreen {
+            background-color: rgba(255, 0, 0, 0.2);
+            border: 5px solid red;
+            border-radius: 1.5rem;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.7);
+            padding: 2rem;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            transform: scale(0.8);
+            transition: transform 0.3s ease-out;
+        }
+        #unauthorizedExposureModal.active #unauthorizedExposureScreen {
+            transform: scale(1);
+        }
+        #unauthorizedExposureScreen h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5em;
+            color: red;
+            text-shadow: 0 0 15px red, 0 0 30px rgba(255, 100, 100, 0.5);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: glitchEffect 0.5s infinite alternate;
+        }
+        @keyframes glitchEffect {
+            0% { text-shadow: 0 0 15px red, 0 0 30px rgba(255, 100, 100, 0.5); transform: translateX(0); }
+            20% { text-shadow: -2px 0 15px red, 2px 0 30px rgba(255, 100, 100, 0.5); transform: translateX(-2px); }
+            40% { text-shadow: 2px 0 15px red, -2px 0 30px rgba(255, 100, 100, 0.5); transform: translateX(2px); }
+            60% { text-shadow: -1px 0 15px red, 1px 0 30px rgba(255, 100, 100, 0.5); transform: translateX(-1px); }
+            80% { text-shadow: 1px 0 15px red, -1px 0 30px rgba(255, 100, 100, 0.5); transform: translateX(1px); }
+            100% { text-shadow: 0 0 15px red, 0 0 30px rgba(255, 100, 100, 0.5); transform: translateX(0); }
+        }
+        #unauthorizedExposureScreen img {
+            max-width: 90%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            border: 5px solid var(--color-primary-magenta);
+            box-shadow: 0 0 25px var(--color-primary-magenta), 0 0 10px var(--color-primary-blue);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        #unauthorizedExposureScreen img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 35px var(--color-primary-magenta), 0 0 15px var(--color-primary-blue);
+        }
+        #unauthorizedExposureScreen p {
+            font-family: var(--font-subheading);
+            font-size: 1.1em;
+            color: var(--color-secondary-white);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            max-width: 500px;
+        }
+        #continueExposureButton {
+            background: linear-gradient(90deg, var(--color-primary-green), var(--color-primary-blue));
+            color: var(--color-secondary-black);
+            padding: 1rem 2.5rem;
+            font-size: 1.2em;
+            font-family: var(--font-heading);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 20px var(--color-primary-green), 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #continueExposureButton:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 30px var(--color-primary-green), 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
 
         /* 7. Final Quebra de Quarta Parede */
         #finalScreen {
@@ -736,7 +1083,7 @@
             text-align: center;
             width: 100%;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.95); /* Fundo quase preto */
+            background-color: rgba(0, 0, 0, 0.95);
             z-index: 10;
             opacity: 0;
             transition: opacity 1s ease-in-out;
@@ -745,21 +1092,21 @@
             opacity: 1;
         }
         #finalScreen p {
-            font-family: var(--font-body); /* Fonte mais legível para a mensagem final */
+            font-family: var(--font-body);
             font-size: 2em;
             color: var(--color-secondary-white);
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
             margin-bottom: 1.5rem;
             opacity: 0;
-            animation: fadeInText 1s forwards; /* Animação de fade-in */
+            animation: fadeInText 1s forwards;
             line-height: 1.5;
         }
         #finalScreen p:nth-child(1) { animation-delay: 0.5s; }
         #finalScreen p:nth-child(2) { animation-delay: 1.5s; }
         #finalScreen p:nth-child(3) { animation-delay: 2.5s; }
-        #finalScreen p:nth-child(4) { animation-delay: 3.5s; } /* Adicionado delay para a 4a frase */
-        #finalScreen p:nth-child(5) { animation-delay: 4.5s; } /* Novo delay */
-        #finalScreen p:nth-child(6) { animation-delay: 5.5s; } /* Novo delay */
+        #finalScreen p:nth-child(4) { animation-delay: 3.5s; }
+        #finalScreen p:nth-child(5) { animation-delay: 4.5s; }
+        #finalScreen p:nth-child(6) { animation-delay: 5.5s; }
 
 
         @keyframes fadeInText {
@@ -773,16 +1120,16 @@
             font-size: 1.2em;
             font-family: var(--font-heading);
             border-radius: 0.75rem;
-            cursor: pointer; /* Alterado para pointer */
+            cursor: pointer;
             border: none;
             box-shadow: 0 0 20px var(--color-primary-magenta), 0 5px 15px rgba(0, 0, 0, 0.3);
             margin-top: 3rem;
             opacity: 0;
-            animation: fadeInText 1s forwards 6.5s; /* Fade-in com delay maior para o botão final */
+            animation: fadeInText 1s forwards 6.5s;
         }
         /* Botão para repetir a mensagem final */
         #repeatMessageButton {
-            display: none; /* Oculto por padrão */
+            display: none;
             background: linear-gradient(90deg, var(--current-mode-primary), var(--current-mode-secondary));
             color: var(--color-secondary-black);
             padding: 1rem 2rem;
@@ -811,7 +1158,7 @@
             cursor: pointer;
             border: none;
             box-shadow: 0 0 20px var(--color-primary-green), 0 5px 15px rgba(0, 0, 0, 0.3);
-            margin-top: 0.5rem; /* Ajustado para subir o botão */
+            margin-top: 0.5rem;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         #enterButton:hover {
@@ -821,7 +1168,7 @@
 
         /* --- Estilos para a nova Página Frufru de Aniversário --- */
         #frufruPage {
-            display: none; /* Oculto por padrão */
+            display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -829,13 +1176,13 @@
             text-align: center;
             width: 100%;
             height: 100vh;
-            background: linear-gradient(135deg, #FFC0CB 0%, #ADD8E6 50%, #FFFFE0 100%); /* Gradiente suave de rosa, azul claro, amarelo claro */
-            color: #333; /* Texto escuro para contraste no fundo claro */
+            background: linear-gradient(135deg, #FFC0CB 0%, #ADD8E6 50%, #FFFFE0 100%);
+            color: #333;
             z-index: 10;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            position: relative; /* Para os balões e confetes */
-            overflow: hidden; /* Esconde o que vaza dos balões */
+            position: relative;
+            overflow: hidden;
         }
         #frufruPage.active {
             opacity: 1;
@@ -843,7 +1190,7 @@
         #frufruPage h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 4em;
-            color: #E6007A; /* Rosa choque */
+            color: #E6007A;
             text-shadow: 0 0 10px rgba(255, 0, 100, 0.7), 0 0 20px rgba(255, 0, 100, 0.5);
             margin-bottom: 1.5rem;
             line-height: 1.2;
@@ -852,13 +1199,13 @@
         #frufruPage p {
             font-family: 'Inter', sans-serif;
             font-size: 1.5em;
-            color: #4B0082; /* Roxo escuro */
+            color: #4B0082;
             line-height: 1.6;
             margin-bottom: 2.5rem;
         }
         #backToInitialScreenButtonFrufru {
-            background: linear-gradient(90deg, #FFD700, #FF69B4); /* Amarelo para rosa vibrante */
-            color: #FFFFFF; /* Texto branco */
+            background: linear-gradient(90deg, #FFD700, #FF69B4);
+            color: #FFFFFF;
             padding: 1.2rem 2.5rem;
             font-size: 1.2em;
             font-family: 'Orbitron', sans-serif;
@@ -882,7 +1229,7 @@
         /* Balões flutuantes */
         .balloon {
             position: absolute;
-            bottom: -100px; /* Começa abaixo da tela */
+            bottom: -100px;
             width: 60px;
             height: 80px;
             background-color: var(--balloon-color);
@@ -892,7 +1239,7 @@
             transform: translateX(var(--float-x-offset));
             box-shadow: 0 5px 10px rgba(0,0,0,0.3);
         }
-        .balloon::before { /* O "bico" do balão */
+        .balloon::before {
             content: '';
             position: absolute;
             top: 100%;
@@ -904,14 +1251,14 @@
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
             z-index: 1;
         }
-        .balloon::after { /* O barbante do balão */
+        .balloon::after {
             content: '';
             position: absolute;
-            top: calc(100% + 10px); /* Abaixo do bico */
+            top: calc(100% + 10px);
             left: 50%;
             transform: translateX(-50%);
             width: 2px;
-            height: 80px; /* Comprimento do barbante */
+            height: 80px;
             background-color: rgba(0,0,0,0.3);
             border-radius: 1px;
             z-index: 0;
@@ -928,7 +1275,7 @@
             background-color: var(--confetti-color);
             opacity: 0;
             animation: fallConfetti var(--fall-duration) linear forwards;
-            top: -20px; /* Começa acima da tela */
+            top: -20px;
         }
         @keyframes fallConfetti {
             0% { transform: translateY(0) rotateZ(0deg) translateX(0); opacity: 1; }
@@ -942,8 +1289,9 @@
             #initialEntryScreen h2 { font-size: 1.8em; }
             #initialEntryScreen p { font-size: 1em; }
             .sona-button-image { width: 200px; height: 200px; }
-            .cta-sona-text { font-size: 1em; } /* Ajuste para o texto de CTA */
+            .cta-sona-text { font-size: 1em; }
             #enterButton { font-size: 1em; padding: 1rem 2rem; }
+            #initialScreenMiniText { font-size: 0.7em; }
 
             #modeShowcase h2 { font-size: 2.2em; }
             #modeShowcase p.mode-description { font-size: 1em; }
@@ -959,17 +1307,34 @@
             #muteButton { width: 50px; height: 50px; top: 10px; right: 10px; }
             #muteButton img { width: 30px; height: 30px; }
 
-            #unansweredQuestionScreen p { font-size: 2.5em; }
+            #unansweredQuestionScreen h1 { font-size: 2.5em; }
+            #unansweredQuestionScreen p.chuta-ai { font-size: 1.2em; }
+            .slider-value-display { font-size: 1.5em; }
+            .slider-reaction-text { font-size: 1em; }
+            #playUnansweredMessageButton, #continueButtonSolo { font-size: 0.9em; padding: 0.8rem 1.5rem; }
+
             #cutePartScreen p { font-size: 2em; }
+            #foodQuizScreen h2 { font-size: 2em; }
+            .food-option-button { font-size: 1em; padding: 0.8rem 1.5rem; min-width: 150px; }
+            #quizFeedback { font-size: 1em; }
+            #quizFeedback img { max-height: 250px; }
+            #continueQuizButton { font-size: 1em; padding: 0.8rem 1.5rem; }
+
             .drama-content { padding: 1.5rem; }
             .drama-content p { font-size: 1em; }
             #stubbornNavigationScreen p { font-size: 1.2em; }
             #stubbornButton { padding: 1rem 2rem; font-size: 1.2em; }
+            #unauthorizedExposureScreen h2 { font-size: 2em; }
+            #unauthorizedExposureScreen p { font-size: 1em; }
+            #unauthorizedExposureScreen img { height: 250px; }
+            #continueExposureButton { font-size: 1em; padding: 0.8rem 1.5rem; }
+
+            #selfDeprecatingScreen p { font-size: 2em; }
+            #continueSelfDeprecatingButton { font-size: 1em; padding: 1rem 2rem; }
             #finalScreen p { font-size: 1.5em; }
-            #endDramaButton { padding: 1rem 2rem; font-size: 1em; }
+            #endDramaButton { font-size: 1em; padding: 1rem 2rem; }
             #repeatMessageButton { padding: 0.8rem 1.5rem; font-size: 0.9em; }
             #repeatClovisMessageButton { padding: 0.6rem 1rem; font-size: 0.8em; }
-            #playUnansweredMessageButton { font-size: 0.9em; padding: 0.8rem 1.5rem; }
 
             /* Frufru page responsive */
             #frufruPage h1 { font-size: 3em; }
@@ -984,11 +1349,13 @@
             #initialEntryScreen h2 { font-size: 1.5em; }
             #initialEntryScreen p { font-size: 0.9em; }
             .sona-button-image { width: 150px; height: 150px; }
-            .cta-sona-text { font-size: 0.9em; } /* Ajuste para o texto de CTA */
+            .cta-sona-text { font-size: 0.9em; }
             #enterButton { font-size: 0.9em; padding: 0.8rem 1.5rem; }
+            #initialScreenMiniText { font-size: 0.6em; }
 
             #modeShowcase h2 { font-size: 1.8em; }
             #modeShowcase p.mode-description { font-size: 0.9em; }
+            .mode-button-container { flex-direction: row; gap: 10px; flex-wrap: wrap; }
             .mode-button { padding: 0.4rem; font-size: 0.8em; width: 90px; height: 90px; }
 
             .go-to-story-button { padding: 0.8rem 1.5rem; font-size: 0.9em; }
@@ -1000,24 +1367,35 @@
             #muteButton { width: 45px; height: 45px; }
             #muteButton img { width: 25px; height: 25px; }
 
-            #unansweredQuestionScreen p { font-size: 1.8em; }
+            #unansweredQuestionScreen h1 { font-size: 2em; }
+            #unansweredQuestionScreen p.chuta-ai { font-size: 1em; }
+            .slider-value-display { font-size: 1.2em; }
+            .slider-reaction-text { font-size: 0.9em; }
+            #playUnansweredMessageButton, #continueButtonSolo { font-size: 0.8em; padding: 0.7rem 1.2rem; }
+
+
             #cutePartScreen p { font-size: 1.5em; }
+            #foodQuizScreen h2 { font-size: 1.5em; }
+            .food-option-button { font-size: 0.9em; padding: 0.7rem 1.2rem; min-width: 120px; max-width: 100%; } /* Ajustado para empilhar em telas muito pequenas */
+            #quizFeedback { font-size: 0.9em; }
+            #quizFeedback img { max-height: 200px; }
+            #continueQuizButton { font-size: 0.9em; padding: 0.7rem 1.2rem; }
+
             .drama-content { padding: 1rem; }
             .drama-content p { font-size: 0.9em; }
             #stubbornNavigationScreen p { font-size: 1em; }
             #stubbornButton { padding: 0.8rem 1.5rem; font-size: 1em; }
+            #unauthorizedExposureScreen h2 { font-size: 1.5em; }
+            #unauthorizedExposureScreen p { font-size: 0.9em; }
+            #unauthorizedExposureScreen img { height: 200px; }
+            #continueExposureButton { font-size: 0.9em; padding: 0.7rem 1.2rem; }
+
+            #selfDeprecatingScreen p { font-size: 1.5em; }
+            #continueSelfDeprecatingButton { font-size: 0.9em; padding: 0.8rem 1.5rem; }
             #finalScreen p { font-size: 1.2em; }
             #endDramaButton { padding: 0.8rem 1.5rem; font-size: 0.9em; }
             #repeatMessageButton { padding: 0.7rem 1.2rem; font-size: 0.8em; }
             #repeatClovisMessageButton { padding: 0.5rem 0.8rem; font-size: 0.7em; }
-            #playUnansweredMessageButton { font-size: 0.8em; padding: 0.7rem 1.2rem; }
-
-            /* Frufru page responsive */
-            #frufruPage h1 { font-size: 2.2em; }
-            #frufruPage p { font-size: 1em; }
-            #backToInitialScreenButtonFrufru { font-size: 0.9em; padding: 0.8rem 1.5rem; }
-            .balloon { width: 30px; height: 40px; }
-            .balloon::after { height: 40px; }
         }
     </style>
 </head>
@@ -1038,6 +1416,9 @@
         </p>
         <!-- Novo botão de entrada para desbloquear o áudio -->
         <button id="enterButton">Entrar</button>
+
+        <!-- MINI TEXTO DE HUMOR AUTODEPRECIATIVO -->
+        <span id="initialScreenMiniText">Espero que esse site não quebre...</span>
     </div>
 
     <!-- SHOWCASE DE MODOS (oculta inicialmente) -->
@@ -1057,10 +1438,19 @@
         <button id="goToStoryButton" class="go-to-story-button">Ir para nossa história</button>
     </div>
 
-    <!-- 4. PERGUNTA SEM RESPOSTA (Tela Solo) -->
+    <!-- 4. PERGUNTA SEM RESPOSTA (Tela Solo) - AGORA COM SLIDER E BOTÕES RESTAURADOS -->
     <div id="unansweredQuestionScreen">
-        <p>Será que tu tem noção do quanto tu significa pra mim?</p>
-        <!-- Novo botão para tocar a mensagem personalizada -->
+        <h1>Será que tu tem noção do quanto tu significa pra mim?</h1>
+        <p class="chuta-ai">Chuta aí:</p>
+        <div id="sliderContainer">
+            <input type="range" min="0" max="100" value="0" class="slider" id="significanceSlider">
+            <div class="slider-labels">
+                <span style="left: 0%;">0%</span>
+                <span style="left: 100%;">100%</span>
+            </div>
+        </div>
+        <p class="slider-value-display" id="currentSliderValue">0%</p>
+        <p class="slider-reaction-text" id="sliderReactionText"></p>
         <button id="playUnansweredMessageButton">Ouvir mensagem</button>
         <button id="continueButtonSolo">[continuar…]</button>
     </div>
@@ -1071,6 +1461,22 @@
         <p>"Feliz aniversário, porra."</p>
         <button id="cuteContinueButton">[Tá bom, segue]</button>
     </div>
+
+    <!-- NOVO QUIZ DE COMIDA -->
+    <div id="foodQuizScreen">
+        <h2>Estamos no shopping Parangaba e começando a ficar com fome, o que vamos comer?</h2>
+        <div id="foodOptionsContainer">
+            <button class="food-option-button" data-option="stacker-duplo">Stacker Duplo</button>
+            <button class="food-option-button" data-option="stacker-rodeio">Stacker Rodeio 2.0</button>
+            <button class="food-option-button" data-option="mega-stacker-cheddar">Mega Stacker Cheddar 2.0</button>
+            <button class="food-option-button" data-option="kfc-fuleiro">Combo mais fuleiro do KFC</button>
+        </div>
+        <div id="quizFeedback">
+            <!-- Conteúdo de feedback (texto e imagem) será injetado aqui -->
+        </div>
+        <button id="continueQuizButton">Próxima Parada!</button>
+    </div>
+
 
     <!-- Pop-up "Erro de Sistema: Detecção de Drama Excessivo" -->
     <div id="dramaDetectedModal">
@@ -1090,6 +1496,26 @@
         <button id="stubbornButton">Clica aqui pra continuar</button>
     </div>
 
+    <!-- NOVA TELA: HUMOR AUTODEPRECIATIVO -->
+    <div id="selfDeprecatingScreen">
+        <p>Esse site provavelmente quebrou em algum lugar. Se isso aconteceu… finge surpresa e me elogia mesmo assim.</p>
+        <button id="continueSelfDeprecatingButton">Entendido, chefia!</button>
+    </div>
+
+    <!-- NOVO MODAL: ERRO DE SISTEMA: EXPOSIÇÃO NÃO AUTORIZADA -->
+    <div id="unauthorizedExposureModal">
+        <div id="unauthorizedExposureScreen">
+            <h2>ERRO DE SISTEMA: EXPOSIÇÃO NÃO AUTORIZADA</h2>
+            <img src="https://imgur.com/foz0PrW.jpeg" alt="Imagem Exposta">
+            <p>
+                Seguinte: essa é a parte em que eu exponho uma foto tua.
+                <br><br>
+                Tu provavelmente vai odiar. Eu, honestamente, achei linda pra caralho. E agora ela tá aqui. No código. No front-end. No meu drama pessoal.
+            </p>
+            <button id="continueExposureButton">Continuar, seu maluco!</button>
+        </div>
+    </div>
+
     <!-- SEÇÃO DA HISTÓRIA DE FOTOS (existente) -->
     <div id="ourStorySection">
         <h2>Nossa História</h2>
@@ -1103,7 +1529,6 @@
         </div>
         <!-- Áudio para a mensagem personalizada da história (um só elemento, source é trocada via JS) -->
         <audio id="personalMessagePlayer" preload="auto"></audio>
-        <!-- O botão de repetir mensagens da história foi removido -->
 
         <button id="backToModesButton">Voltar aos Modos</button>
     </div>
@@ -1117,7 +1542,7 @@
         <p>Feliz aniversário... mais um,</p>
         <p>de todos os que ainda vou fazer questão de tá junto.</p>
         <button id="endDramaButton">[Encerrar Drama.exe]</button>
-        <button id="repeatMessageButton">[Repetir Mensagem]</button> <!-- Botão para repetir a mensagem final -->
+        <button id="repeatMessageButton">[Repetir Mensagem]</button>
     </div>
 
     <!-- Botão Mute/Unmute - GLOBAL -->
@@ -1137,8 +1562,9 @@
     <script>
         // Seletores de elementos
         const initialEntryScreen = document.getElementById('initialEntryScreen');
-        const sonaButtonImage = document.querySelector('.sona-button-image'); // Seletor para a imagem Sona
+        const sonaButtonImage = document.querySelector('.sona-button-image');
         const enterButton = document.getElementById('enterButton');
+        const initialScreenMiniText = document.getElementById('initialScreenMiniText');
 
         const modeShowcase = document.getElementById('modeShowcase');
         const modeButtons = document.querySelectorAll('.mode-button');
@@ -1147,7 +1573,19 @@
         const clovisMessageAudio = document.getElementById('clovisMessageAudio');
         const personalMessagePlayer = document.getElementById('personalMessagePlayer');
 
-        const playUnansweredMessageButton = document.getElementById('playUnansweredMessageButton');
+        // Elementos da tela de pergunta com slider
+        const unansweredQuestionScreen = document.getElementById('unansweredQuestionScreen');
+        const significanceSlider = document.getElementById('significanceSlider');
+        const currentSliderValue = document.getElementById('currentSliderValue');
+        const sliderReactionText = document.getElementById('sliderReactionText');
+        const playUnansweredMessageButton = document.getElementById('playUnansweredMessageButton'); // Restaurado
+        const continueButtonSolo = document.getElementById('continueButtonSolo'); // Restaurado
+
+        // Elementos do quiz de comida
+        const foodQuizScreen = document.getElementById('foodQuizScreen');
+        const foodOptionButtons = document.querySelectorAll('#foodOptionsContainer .food-option-button');
+        const quizFeedback = document.getElementById('quizFeedback');
+        const continueQuizButton = document.getElementById('continueQuizButton');
 
         const root = document.documentElement;
         const particlesContainer = document.getElementById('particles-background');
@@ -1161,8 +1599,6 @@
         const muteButton = document.getElementById('muteButton');
         const muteIcon = document.getElementById('muteIcon');
 
-        const unansweredQuestionScreen = document.getElementById('unansweredQuestionScreen');
-        const continueButtonSolo = document.getElementById('continueButtonSolo');
         const cutePartScreen = document.getElementById('cutePartScreen');
         const cuteContinueButton = document.getElementById('cuteContinueButton');
         const dramaDetectedModal = document.getElementById('dramaDetectedModal');
@@ -1176,9 +1612,15 @@
         const endDramaButton = document.getElementById('endDramaButton');
         const repeatMessageButton = document.getElementById('repeatMessageButton');
 
-        // Nova página frufru e seu botão de volta
         const frufruPage = document.getElementById('frufruPage');
         const backToInitialScreenButtonFrufru = document.getElementById('backToInitialScreenButtonFrufru');
+
+        const unauthorizedExposureModal = document.getElementById('unauthorizedExposureModal');
+        const unauthorizedExposureScreen = document.getElementById('unauthorizedExposureScreen');
+        const continueExposureButton = document.getElementById('continueExposureButton');
+
+        const selfDeprecatingScreen = document.getElementById('selfDeprecatingScreen');
+        const continueSelfDeprecatingButton = document.getElementById('continueSelfDeprecatingButton');
 
 
         // Variáveis de estado
@@ -1187,7 +1629,8 @@
         let currentStoryPhotoIndex = 0;
         let stubbornClickCount = 0;
         let hasUserInteracted = false;
-        let unansweredMessagePlayedOnce = false;
+        let sliderInteracted = false; // Nova flag para o slider
+        let unansweredMessagePlayedOnce = false; // Restaurado para controlar o áudio
 
         const stubbornMessages = [
             "Sério… clica logo.",
@@ -1208,7 +1651,7 @@
                 },
                 audioUrl: 'https://www.dropbox.com/scl/fi/n0ifowtuf2eigmq8l8ki9/Kinetic.mp3?rlkey=87gfngq1rva4bpbo7m3j5f6p0&st=ttgmgms6&dl=1',
                 personalMessageAudioUrl: 'https://www.dropbox.com/scl/fi/zqinz7j6onc67cn8f5jm1/udio-Ca-tico-e-Espont-neo-Kinetic-Mode.ogg?rlkey=quulch8cbu846vtm6mo579vla&st=zb4apydk&dl=1',
-                description: 'caos, riso e vontade de não parar.', // ATUALIZADO
+                description: 'caos, riso e vontade de não parar.',
                 animationClass: 'kinetic-mode',
                 buttonGif: 'https://i.imgur.com/EcvVGe7.gif'
             },
@@ -1222,7 +1665,7 @@
                 },
                 audioUrl: 'https://www.dropbox.com/scl/fi/81ze8mo469cso13vzfsjk/Concussive.mp3?rlkey=rpi5o5yx74ru5k9w2c2jltrxh&st=hdm8pntc&dl=1',
                 personalMessageAudioUrl: 'https://www.dropbox.com/scl/fi/ezytj9uvfmqsk4btz7487/2.-udio-Intenso-e-Direto-Concussive-Mode.ogg?rlkey=u2ccs1x87tdcak54zfpik9dsr&st=7whentjg&dl=1',
-                description: 'bagunça, impacto e eu gostando disso.', // ATUALIZADO
+                description: 'bagunça, impacto e eu gostando disso.',
                 animationClass: 'concussive-mode',
                 buttonGif: 'https://i.imgur.com/R976s8O.gif'
             },
@@ -1236,7 +1679,7 @@
                 },
                 audioUrl: 'https://www.dropbox.com/scl/fi/5cccucuvrlkbmrlcft920/Ethereal.mp3?rlkey=nfl1u627v9fiuaien745mku3d&st=dpw46ogl&dl=1',
                 personalMessageAudioUrl: 'https://www.dropbox.com/scl/fi/elz6cpajvcjwd9yy7k92h/udio-Calmo-e-Afofado-Ethereal-Mode.ogg?rlkey=t7ftvipe8s2lofi1beg9zp4dq&st=211kut57&dl=1',
-                description: 'leve, estranho e eu ficando bobo.', // ATUALIZADO
+                description: 'leve, estranho e eu ficando bobo.',
                 animationClass: 'ethereal-mode',
                 buttonGif: 'https://i.imgur.com/xoDdvKR.gif'
             }
@@ -1308,17 +1751,20 @@
             modeShowcase.style.display = 'none';
             unansweredQuestionScreen.style.display = 'none';
             cutePartScreen.style.display = 'none';
+            foodQuizScreen.style.display = 'none'; // Esconde o novo quiz
             dramaDetectedModal.style.display = 'none';
             stubbornNavigationScreen.style.display = 'none';
+            unauthorizedExposureModal.style.display = 'none';
+            selfDeprecatingScreen.style.display = 'none';
             ourStorySection.style.display = 'none';
             finalScreen.style.display = 'none';
-            frufruPage.style.display = 'none'; // Esconde a nova página frufru
+            frufruPage.style.display = 'none';
             muteButton.style.display = 'none';
             
             personalMessagePlayer.pause();
             personalMessagePlayer.currentTime = 0;
 
-            const allScreens = [initialEntryScreen, modeShowcase, unansweredQuestionScreen, cutePartScreen, dramaDetectedModal, stubbornNavigationScreen, ourStorySection, finalScreen, frufruPage];
+            const allScreens = [initialEntryScreen, modeShowcase, unansweredQuestionScreen, cutePartScreen, foodQuizScreen, dramaDetectedModal, stubbornNavigationScreen, unauthorizedExposureModal, selfDeprecatingScreen, ourStorySection, finalScreen, frufruPage];
             allScreens.forEach(screen => screen.classList.remove('active'));
         }
 
@@ -1330,16 +1776,17 @@
             } else {
                 screenElement.classList.add('active');
             }
-            if (screenElement !== initialEntryScreen && screenElement !== frufruPage) { // Mute button only visible after initial screen OR frufruPage
+            if (screenElement !== initialEntryScreen && screenElement !== frufruPage) {
                 muteButton.style.display = 'flex';
             } else {
-                muteButton.style.display = 'none'; // Esconde o mute na tela inicial e frufru
+                muteButton.style.display = 'none';
             }
 
             personalMessagePlayer.pause();
             personalMessagePlayer.currentTime = 0;
             
-            const isPausedByDramaModal = screenElement === dramaDetectedModal;
+            const isPausedByDramaModal = screenElement === dramaDetectedModal || screenElement === unauthorizedExposureModal;
+            // A lógica de "isPersonalMessagePlayingOnUnansweredScreen" agora depende se o áudio já foi reproduzido ou não
             const isPersonalMessagePlayingOnUnansweredScreen = (screenElement === unansweredQuestionScreen && !unansweredMessagePlayedOnce);
             
             if (hasUserInteracted && !backgroundAudio.muted && !isPausedByDramaModal && !isPersonalMessagePlayingOnUnansweredScreen) {
@@ -1382,15 +1829,19 @@
             oscillator.stop(audioCtx.currentTime + 0.3);
         }
 
+        // Restaurada: Função para reproduzir a mensagem personalizada do modo
         function playPersonalMessageForSelectedMode() {
-            if (!hasUserInteracted || unansweredMessagePlayedOnce) return;
+            if (!hasUserInteracted) return;
+
+            // Se o áudio já tocou uma vez e não for um "replay", não faz nada
+            if (unansweredMessagePlayedOnce) {
+                console.log("Mensagem já tocada uma vez nesta tela.");
+                return;
+            }
 
             if (!backgroundAudio.paused && !backgroundAudio.muted) {
                 backgroundAudio.pause();
             }
-
-            playUnansweredMessageButton.style.display = 'none';
-            unansweredMessagePlayedOnce = true;
 
             const messageAudioUrl = modes[currentSelectedMode].personalMessageAudioUrl;
             personalMessagePlayer.src = messageAudioUrl;
@@ -1398,6 +1849,7 @@
             personalMessagePlayer.currentTime = 0;
 
             personalMessagePlayer.play().then(() => {
+                unansweredMessagePlayedOnce = true; // Marca que o áudio foi reproduzido
             }).catch(error => {
                 console.warn("Erro ao reproduzir áudio da mensagem personalizada. Pode ser autoplay bloqueado ou link inválido.", error);
                 if (!backgroundAudio.muted) {
@@ -1459,9 +1911,7 @@
             goToStoryButton.style.display = 'block';
             goToStoryButton.style.backgroundColor = mode.colors['--current-mode-primary'];
             repeatMessageButton.style.background = `linear-gradient(90deg, ${mode.colors['--current-mode-primary']}, ${mode.colors['--current-mode-secondary']})`;
-            playUnansweredMessageButton.style.background = `linear-gradient(90deg, ${mode.colors['--current-mode-primary']}, ${mode.colors['--current-mode-secondary']})`;
-
-            renderModeParticles(modeName);
+            playUnansweredMessageButton.style.background = `linear-gradient(90deg, ${mode.colors['--current-mode-primary']}, ${mode.colors['--current-mode-secondary']})`; // Restaurado
         }
 
         function renderModeParticles(modeName) {
@@ -1501,7 +1951,7 @@
             }, 250);
         }
 
-        // --- Fluxo das Novas Telas ---
+        // --- Funções de Fluxo das Telas ---
 
         function showUnansweredQuestionScreen() {
             showScreen(unansweredQuestionScreen);
@@ -1521,23 +1971,31 @@
                 particlesContainer.appendChild(particle);
             }
 
-            continueButtonSolo.style.display = 'none';
-            if (!unansweredMessagePlayedOnce) {
-                playUnansweredMessageButton.style.display = 'none';
-            } else {
-                playUnansweredMessageButton.style.display = 'none';
-            }
-
-            setTimeout(() => {
-                continueButtonSolo.style.display = 'block';
-                if (!unansweredMessagePlayedOnce) {
-                    playUnansweredMessageButton.style.display = 'block';
-                }
-            }, 5000);
+            // Inicializa o slider
+            significanceSlider.value = 0;
+            currentSliderValue.textContent = '0%';
+            sliderReactionText.textContent = '';
+            playUnansweredMessageButton.style.display = 'none'; // Oculta o botão no início
+            continueButtonSolo.style.display = 'none'; // Oculta o botão no início
+            sliderInteracted = false; // Reseta a flag de interação com o slider
+            unansweredMessagePlayedOnce = false; // Reseta a flag para permitir que o áudio toque
         }
 
         function showCutePartScreen() {
             showScreen(cutePartScreen);
+        }
+        
+        // NOVO: Função para mostrar o quiz de comida
+        function showFoodQuizScreen() {
+            showScreen(foodQuizScreen);
+            // Limpa qualquer feedback anterior
+            quizFeedback.innerHTML = '';
+            continueQuizButton.style.display = 'none'; // Garante que o botão de continuar esteja oculto
+            // Re-habilita os botões de opção caso o usuário volte
+            foodOptionButtons.forEach(button => {
+                button.disabled = false;
+                button.style.opacity = 1; // Reseta opacidade se tiver sido diminuída
+            });
         }
 
         function showDramaDetectedModal() {
@@ -1556,7 +2014,7 @@
                 if (!backgroundAudio.muted) {
                     backgroundAudio.play().catch(error => console.warn("Erro ao retomar áudio de fundo após mensagem do Clóvis.", error));
                 }
-                repeatClovisMessageButton.style.display = 'block';
+                repeatCloovisMessageButton.style.display = 'block';
             };
         }
 
@@ -1566,6 +2024,52 @@
             stubbornMessage.textContent = "";
             stubbornButton.textContent = "Clica aqui pra continuar";
             renderModeParticles(currentSelectedMode);
+        }
+
+        function showSelfDeprecatingScreen() {
+            showScreen(selfDeprecatingScreen);
+            particlesContainer.innerHTML = '';
+            const bugParticlesCount = 30;
+            for (let i = 0; i < bugParticlesCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 6 + 4;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.animationDelay = `${Math.random() * -5}s`;
+                particle.style.animationDuration = `${Math.random() * 4 + 6}s`;
+                particle.style.background = 'rgba(255, 255, 0, 0.6)';
+                particle.style.boxShadow = '0 0 8px rgba(255, 255, 0, 0.8)';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function showUnauthorizedExposureScreen() {
+            hideAllScreens(); 
+            unauthorizedExposureModal.style.display = 'flex';
+            setTimeout(() => unauthorizedExposureModal.classList.add('active'), 10);
+            
+            backgroundAudio.pause();
+            playErrorSound();
+
+            particlesContainer.innerHTML = ''; 
+            const errorParticlesCount = 40;
+            for (let i = 0; i < errorParticlesCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 5 + 3;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.animationDelay = `${Math.random() * -8}s`;
+                particle.style.animationDuration = `${Math.random() * 3 + 5}s`;
+                particle.style.background = 'red'; 
+                particle.style.boxShadow = '0 0 10px rgba(255, 0, 0, 0.8)';
+                particlesContainer.appendChild(particle);
+            }
         }
 
         function showFinalScreen() {
@@ -1582,7 +2086,6 @@
                 p.offsetHeight;
             });
 
-            // Adjusted delays for the new number of paragraphs
             setTimeout(() => { finalScreenParagraphs[0].style.animation = 'fadeInText 1s forwards'; }, 500);
             setTimeout(() => { finalScreenParagraphs[1].style.animation = 'fadeInText 1s forwards'; }, 1500);
             setTimeout(() => { finalScreenParagraphs[2].style.animation = 'fadeInText 1s forwards'; }, 2500);
@@ -1591,7 +2094,7 @@
             setTimeout(() => { finalScreenParagraphs[5].style.animation = 'fadeInText 1s forwards'; }, 5500); 
 
 
-            const totalTextAnimationDuration = 5500 + 1000; // Updated to reflect all new paragraphs
+            const totalTextAnimationDuration = 5500 + 1000;
             setTimeout(() => {
                 if (!backgroundAudio.muted) {
                     backgroundAudio.play().catch(e => console.warn("Erro ao tentar reproduzir áudio no final.", e));
@@ -1603,34 +2106,30 @@
             }, totalTextAnimationDuration + 500);
         }
 
-        // --- NOVA FUNÇÃO PARA A PÁGINA FRUFRU ---
         function showFrufruPage() {
             showScreen(frufruPage);
-            // Gerar balões e confetes
             generateBalloons();
             generateConfetti();
         }
 
         function generateBalloons() {
-            // Limpa balões existentes para evitar duplicação
             frufruPage.querySelectorAll('.balloon').forEach(b => b.remove()); 
-            const colors = ['#FFC0CB', '#ADD8E6', '#FFFFE0', '#FF69B4', '#8A2BE2']; // Rosa, Azul claro, Amarelo claro, Rosa choque, Roxo
+            const colors = ['#FFC0CB', '#ADD8E6', '#FFFFE0', '#FF69B4', '#8A2BE2'];
             for (let i = 0; i < 15; i++) {
                 const balloon = document.createElement('div');
                 balloon.classList.add('balloon');
                 const randomColor = colors[Math.floor(Math.random() * colors.length)];
                 balloon.style.setProperty('--balloon-color', randomColor);
                 balloon.style.left = `${Math.random() * 100}vw`;
-                balloon.style.animationDelay = `${Math.random() * -10}s`; // Começa em momentos diferentes
+                balloon.style.animationDelay = `${Math.random() * -10}s`;
                 balloon.style.setProperty('--float-duration', `${Math.random() * 10 + 15}s`);
-                balloon.style.setProperty('--float-x-offset', `${(Math.random() - 0.5) * 50}px`); // Pequeno desvio lateral inicial
-                balloon.style.setProperty('--float-drift', `${(Math.random() - 0.5) * 100}px`); // Desvio lateral durante o voo
+                balloon.style.setProperty('--float-x-offset', `${(Math.random() - 0.5) * 50}px`);
+                balloon.style.setProperty('--float-drift', `${(Math.random() - 0.5) * 100}px`);
                 frufruPage.appendChild(balloon);
             }
         }
 
         function generateConfetti() {
-            // Limpa confetes existentes
             frufruPage.querySelectorAll('.confetti').forEach(c => c.remove());
             const colors = ['#FFC0CB', '#ADD8E6', '#FFFFE0', '#FF69B4', '#8A2BE2'];
             for (let i = 0; i < 50; i++) {
@@ -1652,14 +2151,12 @@
 
         // --- Event Listeners ---
 
-        // Evento de clique na imagem da Sona para a página Frufru
         sonaButtonImage.addEventListener('click', () => {
             playGlitchSound();
-            hasUserInteracted = true; // Garante que interage para autoplay de áudio futuro
+            hasUserInteracted = true;
             showFrufruPage();
         });
 
-        // Evento de clique no botão "Entrar" (leva para a seleção de modos)
         enterButton.addEventListener('click', () => {
             playGlitchSound();
             hasUserInteracted = true;
@@ -1667,30 +2164,97 @@
             applyMode('kinetic');
         });
 
-        // Eventos de clique para os botões de modo
         modeButtons.forEach(button => {
             button.addEventListener('click', () => {
                 applyMode(button.dataset.mode);
             });
         });
 
-        // Evento de clique no botão "Ir para nossa história"
         goToStoryButton.addEventListener('click', () => {
             backgroundAudio.pause();
             showUnansweredQuestionScreen();
         });
 
-        // Evento de clique do botão [continuar…] na tela solo
+        // Evento para o slider (tela de pergunta sem resposta)
+        significanceSlider.addEventListener('input', () => {
+            const value = parseInt(significanceSlider.value);
+            currentSliderValue.textContent = `${value}%`;
+            sliderInteracted = true; // Marca que o slider foi interagido
+
+            if (value < 50) {
+                sliderReactionText.textContent = "Tu realmente acredita que é só isso? Forçou, né.";
+            } else if (value >= 50 && value <= 100) {
+                sliderReactionText.textContent = "Obvio, porra."; // Texto corrigido
+            } else { // Valor acima de 100% (se possível)
+                sliderReactionText.textContent = "Agora tu tá exagerando. Tô até corando aqui.";
+            }
+
+            // Mostra os botões "Ouvir mensagem" e "Continuar" após a primeira interação com o slider
+            playUnansweredMessageButton.style.display = 'block';
+            continueButtonSolo.style.display = 'block';
+        });
+
+        // Evento de clique do botão "Ouvir mensagem" na tela do slider
+        playUnansweredMessageButton.addEventListener('click', () => {
+            playPersonalMessageForSelectedMode();
+        });
+
+        // Evento de clique do botão "Continuar" na tela do slider
         continueButtonSolo.addEventListener('click', () => {
-            showCutePartScreen();
+            personalMessagePlayer.pause(); // Garante que o áudio da mensagem personalizada pare
+            personalMessagePlayer.currentTime = 0;
+            showCutePartScreen(); // Move para a próxima tela
         });
 
-        // Evento de clique do botão [Tá bom, segue] na tela fofa
+
         cuteContinueButton.addEventListener('click', () => {
-            showDramaDetectedModal();
+            showFoodQuizScreen(); // Agora vai para o quiz de comida
         });
 
-        // Evento de clique do botão de fechar no pop-up de drama
+        // Eventos de clique para os botões do quiz de comida
+        foodOptionButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const selectedOption = event.target.dataset.option;
+                let feedbackText = "";
+                let feedbackImageSrc = "";
+                let isCorrect = false;
+
+                // Desabilita todos os botões após a escolha
+                foodOptionButtons.forEach(btn => btn.disabled = true);
+
+                if (selectedOption === "kfc-fuleiro") {
+                    feedbackText = "Exatamente. Mas caso tu ainda tenha dúvidas, uma prova aí contra você:";
+                    feedbackImageSrc = "https://imgur.com/7uPLgqk.jpeg"; // KFC de verdade
+                    isCorrect = true;
+                } else {
+                    feedbackText = "KKKKK juro né fi, KFCzão de cria";
+                    feedbackImageSrc = "https://i.imgur.com/SCvE2qk.jpg"; // Marcos comendo KFC
+                    isCorrect = false;
+                }
+
+                // Exibe o feedback
+                quizFeedback.innerHTML = `
+                    <p>${feedbackText}</p>
+                    <img src="${feedbackImageSrc}" alt="Feedback do Quiz">
+                `;
+                // Adiciona classe para fade-in da imagem
+                setTimeout(() => {
+                    const feedbackImg = quizFeedback.querySelector('img');
+                    if (feedbackImg) {
+                        feedbackImg.classList.add('show');
+                    }
+                }, 10); // Pequeno delay para a transição
+
+                continueQuizButton.style.display = 'block'; // Mostra o botão de continuar
+            });
+        });
+
+        // Evento de clique para o botão "Próxima Parada!" do quiz
+        continueQuizButton.addEventListener('click', () => {
+            showDramaDetectedModal(); // Continua para a tela de drama
+        });
+
+
         dramaCloseButton.addEventListener('click', () => {
             dramaDetectedModal.classList.remove('active');
             clovisMessageAudio.pause();
@@ -1702,7 +2266,6 @@
             }, 500);
         });
 
-        // Evento para o novo botão "Repetir Mensagem do Clóvis"
         repeatClovisMessageButton.addEventListener('click', () => {
             backgroundAudio.pause();
             clovisMessageAudio.currentTime = 0;
@@ -1711,19 +2274,30 @@
             });
         });
 
-        // Evento de clique do botão teimoso
         stubbornButton.addEventListener('click', () => {
             stubbornClickCount++;
             if (stubbornClickCount <= stubbornMessages.length) {
                 stubbornMessage.textContent = stubbornMessages[stubbornClickCount - 1];
             } else {
-                showScreen(ourStorySection);
-                currentStoryPhotoIndex = 0;
-                showStoryPhoto();
+                showSelfDeprecatingScreen(); 
             }
         });
 
-        // Eventos de navegação na história
+        continueSelfDeprecatingButton.addEventListener('click', () => {
+            showUnauthorizedExposureScreen();
+        });
+
+        continueExposureButton.addEventListener('click', () => {
+            unauthorizedExposureModal.classList.remove('active');
+            backgroundAudio.play().catch(e => console.warn("Erro ao retomar áudio de fundo após fechar modal.", e));
+            setTimeout(() => {
+                unauthorizedExposureModal.style.display = 'none';
+                showScreen(ourStorySection);
+                currentStoryPhotoIndex = 0;
+                showStoryPhoto();
+            }, 500);
+        });
+
         storyPrev.addEventListener('click', () => {
             currentStoryPhotoIndex = (currentStoryPhotoIndex - 1 + allPhotosData.length) % allPhotosData.length;
             showStoryPhoto();
@@ -1738,27 +2312,22 @@
             }
         });
 
-        // Evento para o botão "Voltar aos Modos" (na seção da história)
         backToModesButton.addEventListener('click', () => {
             showScreen(modeShowcase);
         });
 
-        // Evento para o botão "Ouvir mensagem" na tela da pergunta
-        playUnansweredMessageButton.addEventListener('click', () => {
-            playPersonalMessageForSelectedMode();
-        });
-
-        // Evento de clique para o botão de Mute/Unmute
         muteButton.addEventListener('click', () => {
             backgroundAudio.muted = !backgroundAudio.muted;
             if (backgroundAudio.muted) {
                 muteButton.classList.add('muted');
                 backgroundAudio.pause();
+                personalMessagePlayer.pause(); // Pausa o áudio personalizado também
+                clovisMessageAudio.pause(); // Pausa o áudio do Clóvis também
             } else {
                 muteButton.classList.remove('muted');
                 const currentlyActiveScreen = document.querySelector('div[style*="display: flex"]');
-                const isPausedByDramaModal = currentlyActiveScreen === dramaDetectedModal;
-                const isPersonalMessagePlayingOnUnansweredScreen = (currentlyActiveScreen === unansweredQuestionScreen && !personalMessagePlayer.paused && personalMessagePlayer.duration > 0 && !unansweredMessagePlayedOnce);
+                const isPausedByDramaModal = currentlyActiveScreen === dramaDetectedModal || currentlyActiveScreen === unauthorizedExposureModal;
+                const isPersonalMessagePlayingOnUnansweredScreen = (currentlyActiveScreen === unansweredQuestionScreen && !personalMessagePlayer.paused && personalMessagePlayer.duration > 0 && !personalMessagePlayer.ended);
                 
                 if (currentlyActiveScreen === dramaDetectedModal && !clovisMessageAudio.paused && !clovisMessageAudio.ended && !clovisMessageAudio.muted) {
                      clovisMessageAudio.play().catch(e => console.warn("Erro ao retomar áudio do Clóvis ao retornar à aba.", e));
@@ -1770,13 +2339,11 @@
             }
         });
 
-        // Evento para o botão "Repetir Mensagem" (da tela final)
         repeatMessageButton.addEventListener('click', () => {
             showScreen(modeShowcase);
             applyMode(currentSelectedMode); 
         });
 
-        // Evento para o botão final "Encerrar Drama.exe" para linkar ao WhatsApp
         endDramaButton.addEventListener('click', () => {
             backgroundAudio.pause();
             clovisMessageAudio.pause();
@@ -1784,12 +2351,10 @@
             window.location.href = 'https://wa.me/5585999864434?text=parabens%2C%20tu%20conseguiu%20me%20deixar%20sem%20fala%20e%20quase%20chorando%20aqui%2C%20dramatico%20do%20caralho%2C%20mas%20eu%20te%20amo%20mesmo%20assim%2C%20seu%20doido';
         });
 
-        // Evento para o botão "Voltar ao Início" da página Frufru
         backToInitialScreenButtonFrufru.addEventListener('click', () => {
             showScreen(initialEntryScreen);
         });
 
-        // Opcional: Pausar áudio se a tab perder o foco
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 backgroundAudio.pause();
@@ -1797,8 +2362,8 @@
                 personalMessagePlayer.pause();
             } else {
                 const currentlyActiveScreen = document.querySelector('div[style*="display: flex"]');
-                const isPausedByDramaModal = currentlyActiveScreen === dramaDetectedModal;
-                const isPersonalMessagePlayingOnUnansweredScreen = (currentlyActiveScreen === unansweredQuestionScreen && !personalMessagePlayer.paused && personalMessagePlayer.duration > 0 && !unansweredMessagePlayedOnce);
+                const isPausedByDramaModal = currentlyActiveScreen === dramaDetectedModal || currentlyActiveScreen === unauthorizedExposureModal;
+                const isPersonalMessagePlayingOnUnansweredScreen = (currentlyActiveScreen === unansweredQuestionScreen && !personalMessagePlayer.paused && personalMessagePlayer.duration > 0 && !personalMessagePlayer.ended);
                 
                 if (currentlyActiveScreen === dramaDetectedModal && !clovisMessageAudio.paused && !clovisMessageAudio.ended && !clovisMessageAudio.muted) {
                      clovisMessageAudio.play().catch(e => console.warn("Erro ao retomar áudio do Clóvis ao retornar à aba.", e));
@@ -1810,7 +2375,6 @@
             }
         });
 
-        // Geração de partículas apenas para a tela inicial ao carregar (se visível)
         document.addEventListener('DOMContentLoaded', () => {
             modeButtons.forEach(btn => {
                 const btnModeName = btn.dataset.mode;
@@ -1820,7 +2384,6 @@
                 }
             });
 
-            // Gera partículas para a tela inicial ao carregar
             if (initialEntryScreen.style.display !== 'none') {
                 const initialParticlesCount = 30;
                 for (let i = 0; i < initialParticlesCount; i++) {
@@ -1836,9 +2399,8 @@
                     particlesContainer.appendChild(particle);
                 }
             }
-            // Garante que todas as telas, exceto a inicial, estejam ocultas
             hideAllScreens();
-            initialEntryScreen.style.display = 'flex'; // Exibe a tela inicial
+            initialEntryScreen.style.display = 'flex';
         });
     </script>
 </body>
