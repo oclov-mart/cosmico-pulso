@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CÓSMICO PULSO</title>
+    <!-- Inclui o Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Importa fontes do Google Fonts para estilos futuristas e de programação -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis CSS para a paleta de cores fornecida */
+        :root {
+            /* Cores Primárias */
+            --color-primary-blue: #00E5FF; /* Azul Elétrico */
+            --color-primary-purple: #8A2BE2; /* Roxo Neon */
+            --color-primary-magenta: #FF00FF; /* Magenta Vibrante */
+            --color-primary-green: #00FF00; /* Verde Limão */
+            
+            /* Cores Secundárias */
+            --color-secondary-orange: #FF8C00; /* Laranja Fluorescente */
+            --color-secondary-white: #E0FFFF; /* Branco Glacial */
+            --color-secondary-black: #000000; /* Preto Profundo */
+
+            /* Fontes selecionadas do Google Fonts */
+            --font-heading: 'Orbitron', sans-serif; /* Para títulos principais */
+            --font-subheading: 'Share Tech Mono', monospace; /* Para subtítulos e elementos digitais */
+            --font-body: 'Inter', sans-serif; /* Para texto geral, legibilidade */
+
+            /* Variáveis para cores dos modos (atualizadas via JS) */
+            --current-mode-primary: var(--color-primary-blue);
+            --current-mode-secondary: var(--color-primary-purple);
+            --current-mode-light-pulse: rgba(0, 229, 255, 0.7);
+            --current-mode-background-effect: none;
+            --current-mode-particle-color: var(--color-primary-green);
+        }
+
+        /* Estilos globais do corpo da página */
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: var(--font-body);
+            background-image: url('https://i.imgur.com/JmSI1bi.gif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--color-secondary-white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Esconde o overflow para efeitos de partículas */
+            position: relative; /* Necessário para posicionar o overlay e partículas */
+            transition: background 0.8s ease-in-out; /* Transição suave para mudança de fundo do body */
+        }
+
+        /* Overlay semi-transparente para escurecer o fundo e melhorar contraste */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        /* Estilos para o modo ativo (fundo e partículas) */
+        body.mode-active {
+            background-image: var(--current-mode-background-effect); /* Usa a variável atualizada pelo JS */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        body.mode-active .mode-particles .particle {
+            background: var(--current-mode-particle-color);
+            box-shadow: 0 0 8px var(--current-mode-particle-color);
+        }
+        /* Kinetic Mode Specific Styles - SÓ ANIMAÇÃO AQUI */
+        body.mode-active.kinetic-mode {
+            animation: kineticWave 8s infinite linear;
+        }
+        @keyframes kineticWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Concussive Mode Specific Styles - SÓ ANIMAÇÃO AQUI */
+        body.mode-active.concussive-mode {
+             animation: concussivePulse 2s infinite alternate;
+        }
+        @keyframes concussivePulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        /* Ethereal Mode Specific Styles - SÓ ANIMAÇÃO AQUI */
+        body.mode-active.ethereal-mode {
+            animation: etherealFlow 12s infinite ease-in-out alternate;
+        }
+        @keyframes etherealFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        /* Contêiner da tela de entrada */
+        #initialEntryScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 1.5rem;
+            box-shadow: 0 0 50px rgba(138, 43, 226, 0.5), 0 0 20px rgba(0, 229, 255, 0.3);
+            text-align: center;
+            max-width: 900px;
+            width: 90%;
+            height: auto;
+            z-index: 1;
+        }
+
+        /* Estilo para o título principal (H1) */
+        #initialEntryScreen h1 {
+            font-family: var(--font-heading);
+            font-size: 4em;
+            color: var(--color-primary-blue);
+            text-shadow: 0 0 15px var(--color-primary-blue), 0 0 30px var(--color-primary-purple);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        /* Estilo para o subtítulo (H2) */
+        #initialEntryScreen h2 {
+            font-family: var(--font-subheading);
+            font-size: 2.2em;
+            color: var(--color-primary-magenta);
+            text-shadow: 0 0 10px var(--color-primary-magenta);
+            margin-bottom: 2rem;
+        }
+
+        /* Estilo para o texto do parágrafo */
+        #initialEntryScreen p:not(.glitch-effect) {
+            font-family: var(--font-body);
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Estilo para a imagem da Sona que atua como botão */
+        .sona-button-image {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid var(--color-primary-magenta);
+            box-shadow: 0 0 20px var(--color-primary-magenta), 0 0 10px var(--color-primary-blue);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 1.5rem; /* Ajuste para espaçamento antes do texto */
+        }
+
+        .sona-button-image:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 0 40px var(--color-primary-magenta), 0 0 20px var(--color-primary-blue);
+        }
+
+        /* Efeito de glitch (aplicado ao texto "Aperta aí..." ) */
+        .glitch-effect {
+            position: relative;
+            font-family: var(--font-subheading);
+            font-size: 1.2em;
+            color: var(--color-primary-green);
+            text-shadow: 0 0 5px var(--color-primary-green);
+            margin-top: 1rem;
+            animation: glitchAnim 1.5s infinite alternate;
+        }
+        .glitch-effect::before,
+        .glitch-effect::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .glitch-effect::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--color-primary-blue);
+            animation: glitchAnimTop 1.5s infinite alternate;
+        }
+        .glitch-effect::after {
+            left: -2px;
+            text-shadow: 2px 0 var(--color-primary-magenta);
+            animation: glitchAnimBottom 1.5s infinite alternate;
+        }
+
+        /* Keyframes para a animação de glitch */
+        @keyframes glitchAnim {
+            0%, 100% { clip-path: inset(0 0 0 0); }
+            10% { clip-path: inset(85% 0 0 0); }
+            20% { clip-path: inset(10% 0 80% 0); }
+            30% { clip-path: inset(30% 0 45% 0); }
+            40% { clip-path: inset(70% 0 10% 0); }
+            50% { clip-path: inset(5% 0 90% 0); }
+            60% { clip-path: inset(95% 0 0 0); }
+            70% { clip-path: inset(20% 0 70% 0); }
+            80% { clip-path: inset(60% 0 25% 0); }
+            90% { clip-path: inset(15% 0 75% 0); }
+        }
+        @keyframes glitchAnimTop {
+            0%, 100% { transform: translate(0, 0); }
+            20%, 80% { transform: translate(-2px, -2px); }
+            40%, 60% { transform: translate(2px, 2px); }
+        }
+        @keyframes glitchAnimBottom {
+            0%, 100% { transform: translate(0, 0); }
+            20%, 80% { transform: translate(2px, 2px); }
+            40%, 60% { transform: translate(-2px, -2px); }
+        }
+
+        /* Contêiner para as partículas de fundo (na tela inicial) */
+        .particles {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* Estilo para cada partícula individual */
+        .particle {
+            position: absolute;
+            background: var(--color-primary-green);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: floatAndFade 8s linear infinite;
+            box-shadow: 0 0 8px var(--color-primary-green);
+        }
+        /* Animação para flutuar e desaparecer das partículas */
+        @keyframes floatAndFade {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            75% { opacity: 0.6; }
+            100% {
+                transform: translateY(-20vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+        /* Modo de partículas que se expandem/contraem (para concussive) */
+        .mode-particles .particle.expand-contract {
+            animation: expandContract 2s infinite alternate;
+        }
+        @keyframes expandContract {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(0.5); opacity: 0; }
+        }
+        /* Modo de partículas com brilho suave (para ethereal) */
+        .mode-particles .particle.soft-glow {
+            animation: softGlowFloat 10s infinite ease-in-out;
+        }
+        @keyframes softGlowFloat {
+            0% { transform: translateY(0) translateX(0); opacity: 0.2; box-shadow: 0 0 10px rgba(0,255,0,0.5); }
+            50% { transform: translateY(-50px) translateX(20px); opacity: 0.7; box-shadow: 0 0 20px rgba(0,255,0,0.8); }
+            100% { transform: translateY(0) translateX(0); opacity: 0.2; box-shadow: 0 0 10px rgba(0,255,0,0.5); }
+        }
+
+
+        /* Contêiner da showcase de modos (oculta inicialmente) */
+        #modeShowcase {
+            display: none; /* Inicialmente oculto */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 1200px;
+            min-height: 100vh; /* Ocupa a altura total da viewport */
+            z-index: 1;
+            box-sizing: border-box; /* Inclui padding e borda na largura/altura total */
+        }
+        #modeShowcase h2 {
+            font-family: var(--font-heading);
+            font-size: 3em;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px var(--current-mode-primary);
+        }
+        #modeShowcase p.mode-description {
+            font-family: var(--font-body);
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            color: var(--color-secondary-white);
+            max-width: 700px;
+        }
+        /* Contêiner dos botões de modo */
+        .mode-button-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 4rem;
+            flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas menores */
+            justify-content: center;
+        }
+        /* Estilo dos botões de modo - ATUALIZADO para usar GIFs */
+        .mode-button {
+            width: 150px; /* Largura fixa para os botões */
+            height: 150px; /* Altura fixa para os botões */
+            background-color: rgba(0, 0, 0, 0.6); /* Fundo sutil para o texto e borda */
+            background-size: cover; /* Ajusta o GIF para cobrir o botão */
+            background-position: center; /* Centraliza o GIF */
+            border: 2px solid var(--current-mode-primary);
+            color: var(--color-secondary-white); /* Cor do texto padrão (para o nome) */
+            font-family: var(--font-subheading);
+            font-size: 1.1em;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px var(--current-mode-primary);
+            display: flex; /* Para centralizar o texto */
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Sombra para o texto sobre o GIF */
+            position: relative; /* Para garantir que o texto esteja sobre o background */
+        }
+        /* Efeito no hover e ativo para os botões de GIF */
+        .mode-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 0 25px var(--current-mode-primary), 0 0 10px var(--current-mode-secondary);
+        }
+        .mode-button.active {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--current-mode-primary), 0 0 15px var(--current-mode-secondary);
+            border-color: var(--color-primary-green); /* Borda de destaque para o ativo */
+        }
+
+        /* Reprodutor de áudio na showcase de modos */
+        #modeShowcase audio {
+            width: 80%;
+            max-width: 600px;
+            filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+            border-radius: 0.5rem;
+            outline: none;
+            margin-top: 2rem;
+        }
+
+        /* Botão "Ir para nossa história" */
+        .go-to-story-button {
+            background: var(--current-mode-primary); /* Cor do tema */
+            color: var(--color-secondary-black); /* Texto escuro para contraste */
+            padding: 1.2rem 2.5rem;
+            font-size: 1.2em;
+            font-family: var(--font-heading);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 20px var(--current-mode-primary), 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+            margin-top: 3rem; /* Espaçamento do player de áudio */
+        }
+        .go-to-story-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 30px var(--current-mode-primary), 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Seção da História de Fotos */
+        #ourStorySection {
+            display: none; /* Oculta por padrão */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 1.5rem;
+            box-shadow: 0 0 50px var(--current-mode-primary), 0 0 20px var(--current-mode-secondary);
+            text-align: center;
+            max-width: 900px;
+            width: 90%;
+            min-height: 80vh; /* Altura mínima para a seção */
+            z-index: 1;
+            box-sizing: border-box;
+        }
+        #ourStorySection h2 {
+            font-family: var(--font-heading);
+            font-size: 3.5em;
+            color: var(--current-mode-primary);
+            text-shadow: 0 0 10px var(--current-mode-primary), 0 0 20px var(--current-mode-secondary);
+            margin-bottom: 2rem;
+        }
+        #storyPhotoContainer {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Tamanho máximo do contêiner da foto */
+            margin-bottom: 1.5rem;
+        }
+        #storyPhoto {
+            width: 100%; /* Garante que a imagem ocupe a largura total do contêiner */
+            height: 400px; /* ALTURA FIXA PARA A IMAGEM */
+            object-fit: contain; /* ALTERADO: Garante que a imagem se ajuste totalmente sem cortar */
+            border-radius: 0.75rem;
+            border: 4px solid var(--current-mode-primary);
+            box-shadow: 0 0 25px var(--current-mode-primary), 0 0 10px var(--current-mode-secondary);
+            transition: opacity 0.5s ease-in-out; /* Transição para fotos */
+        }
+        #storyCaption {
+            font-family: var(--font-subheading); /* ALTERADO: Usando Share Tech Mono para a legenda */
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: var(--color-secondary-white);
+            margin-bottom: 2rem;
+            min-height: 60px; /* Garante espaço para legendas mais longas */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .story-nav-button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--color-secondary-white);
+            border: 2px solid var(--current-mode-primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-family: var(--font-subheading);
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--current-mode-primary);
+            margin: 0 10px;
+        }
+        .story-nav-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px var(--current-mode-primary), 0 0 5px var(--current-mode-secondary);
+        }
+        .story-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+        #backToModesButton {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: var(--color-secondary-white);
+            padding: 0.8rem 1.5rem;
+            font-size: 1em;
+            font-family: var(--font-subheading);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            border: 2px solid var(--color-secondary-white);
+            margin-top: 3rem;
+            transition: all 0.3s ease;
+        }
+        #backToModesButton:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px var(--color-secondary-white);
+        }
+
+        /* Botão Mute/Unmute - Global */
+        #muteButton {
+            display: none; /* Oculto inicialmente, aparece com a showcase de modos */
+            position: fixed; /* Fixado na tela */
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--current-mode-primary);
+            border-radius: 50%; /* Botão circular */
+            width: 60px; /* Tamanho do botão */
+            height: 60px;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--current-mode-primary);
+            transition: all 0.3s ease;
+            z-index: 50; /* Acima de outros elementos */
+        }
+        #muteButton:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px var(--current-mode-primary);
+        }
+        #muteButton img {
+            width: 35px; /* Tamanho do ícone da Sona */
+            height: 35px;
+            transition: opacity 0.3s ease;
+        }
+        #muteButton.muted img {
+            opacity: 0.4; /* Opacidade reduzida quando mutado */
+            /* filter: grayscale(100%);  Opcional: Descolorir quando mutado */
+        }
+
+        /* 4. Pergunta Sem Resposta (Tela Solo) */
+        #unansweredQuestionScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8); /* Fundo bem escuro */
+            z-index: 10; /* Acima da camada de partículas */
+            opacity: 0; /* Começa invisível para fade-in */
+            transition: opacity 1s ease-in-out;
+        }
+        #unansweredQuestionScreen.active {
+            opacity: 1;
+        }
+        #unansweredQuestionScreen p {
+            font-family: var(--font-heading);
+            font-size: 3.5em;
+            color: var(--color-secondary-white);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            animation: floatText 5s infinite alternate ease-in-out; /* Flutuação suave */
+            line-height: 1.3;
+        }
+        @keyframes floatText {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        #continueButtonSolo {
+            margin-top: 1.5rem; /* Espaçamento da mensagem */
+            padding: 0.8rem 1.5rem;
+            font-size: 1em;
+            font-family: var(--font-subheading);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--color-secondary-white);
+            border: 1px solid var(--color-secondary-white);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #continueButtonSolo:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        /* Estilo para o novo botão "Ouvir mensagem" */
+        #playUnansweredMessageButton {
+            background: linear-gradient(90deg, var(--current-mode-primary), var(--current-mode-secondary));
+            color: var(--color-secondary-black);
+            padding: 1rem 2rem;
+            font-size: 1em;
+            font-family: var(--font-subheading);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 15px var(--current-mode-primary), 0 5px 10px rgba(0, 0, 0, 0.3);
+            margin-top: 1.5rem; /* Espaçamento da mensagem */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #playUnansweredMessageButton:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 25px var(--current-mode-primary), 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+        /* Partículas para esta tela - sutilmente paradas */
+        #unansweredQuestionScreen + .particles .particle {
+            animation-duration: 20s !important; /* Movimento muito lento */
+            opacity: 0.2 !important; /* Quase transparente */
+        }
+
+        /* 5. Parte Irritantemente Fofa (Tela Rosa/Glitch Coração) */
+        #cutePartScreen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            text-align: center;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--color-primary-magenta); /* Fundo rosa neon */
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            /* Corações pixelados ou com leve glitch - Exemplo com pseudo-elementos */
+            background-image: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px),
+                              radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            animation: backgroundGlitch 0.5s infinite alternate;
+        }
+        #cutePartScreen.active {
+            opacity: 1;
+        }
+        @keyframes backgroundGlitch {
+            0% { background-position: 0 0, 10px 10px; }
+            100% { background-position: 2px 2px, 12px 12px; } /* Leve deslocamento para glitch */
+        }
+        #cutePartScreen p {
+            font-family: var(--font-heading);
+            font-size: 3em;
+            color: var(--color-secondary-white);
+            text-shadow: 0 0 10px var(--color-secondary-white);
+            line-height: 1.4;
+            margin-bottom: 2rem;
+            animation: pulseText 1.5s infinite alternate;
+        }
+        @keyframes pulseText {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.02); opacity: 1; }
+        }
+        #cuteContinueButton {
+            background: linear-gradient(90deg, var(--color-primary-green), var(--color-primary-blue));
+            color: var(--color-secondary-black);
+            padding: 1rem 2.5rem;
+            font-size: 1.2em;
+            font-family: var(--font-heading);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 20px var(--color-primary-green), 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #cuteContinueButton:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 30px var(--color-primary-green), 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Pop-up "Erro de Sistema: Detecção de Drama Excessivo" */
+        #dramaDetectedModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        #dramaDetectedModal.active {
+            opacity: 1;
+        }
+        .drama-content {
+            background-color: #1a082e;
+            border: 3px solid #FF0000; /* Borda vermelha de erro */
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.7);
+            max-width: 500px;
+            width: 90%;
+            transform: scale(0.8);
+            transition: transform 0.3s ease-out;
+        }
+        #dramaDetectedModal.active .drama-content {
+            transform: scale(1);
+        }
+        .drama-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid #FF8C00; /* Borda laranja */
+            box-shadow: 0 0 15px #FF8C00;
+        }
+        .drama-content p {
+            font-family: var(--font-subheading);
+            font-size: 1.2em;
+            color: #FF8C00; /* Laranja fluorescente */
+            text-shadow: 0 0 5px #FF8C00;
+            margin-bottom: 1.5rem;
+        }
+        #dramaCloseButton {
+            background-color: #FF0000;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-family: var(--font-heading);
+            transition: background-color 0.2s ease;
+        }
+        #dramaCloseButton:hover {
+            background-color: #CC0000;
+        }
+        /* Botão de repetir mensagem do Clóvis */
+        #repeatClovisMessageButton {
+            background: linear-gradient(90deg, #FF8C00, #FFD700); /* Laranja para Amarelo */
+            color: var(--color-secondary-black);
+            padding: 0.7rem 1.2rem;
+            font-size: 0.9em;
+            font-family: var(--font-subheading);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 10px #FF8C00, 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin-top: 1rem;
+            display: none; /* Oculto por padrão */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #repeatClovisMessageButton:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 15px #FF8C00, 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+
+        /* 6. Navegação Teimosa (Botão que resiste a ser clicado) */
+        #stubbornNavigationScreen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            text-align: center;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.9); /* Fundo escuro */
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        #stubbornNavigationScreen.active {
+            opacity: 1;
+        }
+        #stubbornButton {
+            background: linear-gradient(90deg, var(--color-primary-magenta), var(--color-primary-blue));
+            background-size: 200% 200%;
+            animation: gradientPulse 3s infinite alternate;
+            color: var(--color-secondary-white);
+            padding: 1.5rem 3rem;
+            font-size: 1.5em;
+            font-family: var(--font-heading);
+            border-radius: 1rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 25px var(--color-primary-magenta), 0 0 10px var(--color-primary-blue);
+            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out; /* Resposta rápida */
+            margin-top: 5rem;
+        }
+        #stubbornButton:hover {
+            transform: scale(1.01); /* Quase sem movimento no hover */
+            box-shadow: 0 0 30px var(--color-primary-magenta), 0 0 15px var(--color-primary-blue);
+        }
+        #stubbornButton:active {
+            transform: scale(0.98); /* Pequeno "afundamento" no clique */
+        }
+        #stubbornNavigationScreen p {
+            font-family: var(--font-subheading);
+            font-size: 1.5em;
+            color: var(--color-secondary-white);
+            text-shadow: 0 0 8px var(--color-primary-green);
+            margin-bottom: 2rem;
+            min-height: 2em; /* Para evitar que o texto mude o layout */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 7. Final Quebra de Quarta Parede */
+        #finalScreen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            text-align: center;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.95); /* Fundo quase preto */
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        #finalScreen.active {
+            opacity: 1;
+        }
+        #finalScreen p {
+            font-family: var(--font-body); /* Fonte mais legível para a mensagem final */
+            font-size: 2em;
+            color: var(--color-secondary-white);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInText 1s forwards; /* Animação de fade-in */
+            line-height: 1.5;
+        }
+        #finalScreen p:nth-child(1) { animation-delay: 0.5s; }
+        #finalScreen p:nth-child(2) { animation-delay: 1.5s; }
+        #finalScreen p:nth-child(3) { animation-delay: 2.5s; }
+        #finalScreen p:nth-child(4) { animation-delay: 3.5s; } /* Adicionado delay para a 4a frase */
+
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        #endDramaButton {
+            background: linear-gradient(90deg, var(--color-primary-magenta), var(--color-primary-blue));
+            color: var(--color-secondary-black);
+            padding: 1.2rem 2.5rem;
+            font-size: 1.2em;
+            font-family: var(--font-heading);
+            border-radius: 0.75rem;
+            cursor: pointer; /* Alterado para pointer */
+            border: none;
+            box-shadow: 0 0 20px var(--color-primary-magenta), 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-top: 3rem;
+            opacity: 0;
+            animation: fadeInText 1s forwards 4.5s; /* Fade-in com delay maior para o botão final */
+        }
+        /* Botão para repetir a mensagem final */
+        #repeatMessageButton {
+            display: none; /* Oculto por padrão */
+            background: linear-gradient(90deg, var(--current-mode-primary), var(--current-mode-secondary));
+            color: var(--color-secondary-black);
+            padding: 1rem 2rem;
+            font-size: 1em;
+            font-family: var(--font-subheading);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 15px var(--current-mode-primary), 0 5px 10px rgba(0, 0, 0, 0.3);
+            margin-top: 1.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #repeatMessageButton:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 25px var(--current-mode-primary), 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Novo botão para a tela inicial */
+        #enterButton {
+            background: linear-gradient(90deg, var(--color-primary-green), var(--color-primary-blue));
+            color: var(--color-secondary-black);
+            padding: 1.2rem 2.5rem;
+            font-size: 1.2em;
+            font-family: var(--font-heading);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 20px var(--color-primary-green), 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-top: 2rem; /* Espaçamento da Sona e texto */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #enterButton:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 30px var(--color-primary-green), 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* --- Estilos para a nova Página Frufru de Aniversário --- */
+        #frufruPage {
+            display: none; /* Oculto por padrão */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            text-align: center;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #FFC0CB 0%, #ADD8E6 50%, #FFFFE0 100%); /* Gradiente suave de rosa, azul claro, amarelo claro */
+            color: #333; /* Texto escuro para contraste no fundo claro */
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            position: relative; /* Para os balões e confetes */
+            overflow: hidden; /* Esconde o que vaza dos balões */
+        }
+        #frufruPage.active {
+            opacity: 1;
+        }
+        #frufruPage h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4em;
+            color: #E6007A; /* Rosa choque */
+            text-shadow: 0 0 10px rgba(255, 0, 100, 0.7), 0 0 20px rgba(255, 0, 100, 0.5);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: pulseFrufru 1.5s infinite alternate;
+        }
+        #frufruPage p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5em;
+            color: #4B0082; /* Roxo escuro */
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+        #backToInitialScreenButtonFrufru {
+            background: linear-gradient(90deg, #FFD700, #FF69B4); /* Amarelo para rosa vibrante */
+            color: #FFFFFF; /* Texto branco */
+            padding: 1.2rem 2.5rem;
+            font-size: 1.2em;
+            font-family: 'Orbitron', sans-serif;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        #backToInitialScreenButtonFrufru:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.7), 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Animação de pulso para o título da página frufru */
+        @keyframes pulseFrufru {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.03); opacity: 0.9; }
+        }
+
+        /* Balões flutuantes */
+        .balloon {
+            position: absolute;
+            bottom: -100px; /* Começa abaixo da tela */
+            width: 60px;
+            height: 80px;
+            background-color: var(--balloon-color);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0.8;
+            animation: floatBalloon var(--float-duration) infinite ease-in-out;
+            transform: translateX(var(--float-x-offset));
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        }
+        .balloon::before { /* O "bico" do balão */
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: var(--balloon-color);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 1;
+        }
+        .balloon::after { /* O barbante do balão */
+            content: '';
+            position: absolute;
+            top: calc(100% + 10px); /* Abaixo do bico */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 80px; /* Comprimento do barbante */
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 1px;
+            z-index: 0;
+        }
+
+        @keyframes floatBalloon {
+            0% { transform: translateY(0) translateX(var(--float-x-offset)); }
+            100% { transform: translateY(-100vh) translateX(calc(var(--float-x-offset) + var(--float-drift))); }
+        }
+
+        /* Confetes caindo */
+        .confetti {
+            position: absolute;
+            background-color: var(--confetti-color);
+            opacity: 0;
+            animation: fallConfetti var(--fall-duration) linear forwards;
+            top: -20px; /* Começa acima da tela */
+        }
+        @keyframes fallConfetti {
+            0% { transform: translateY(0) rotateZ(0deg) translateX(0); opacity: 1; }
+            100% { transform: translateY(100vh) rotateZ(720deg) translateX(var(--confetti-drift)); opacity: 0; }
+        }
+
+
+        /* Responsividade geral */
+        @media (max-width: 768px) {
+            #initialEntryScreen h1 { font-size: 3em; }
+            #initialEntryScreen h2 { font-size: 1.8em; }
+            #initialEntryScreen p { font-size: 1em; }
+            .sona-button-image { width: 200px; height: 200px; }
+            #enterButton { font-size: 1em; padding: 1rem 2rem; }
+
+            #modeShowcase h2 { font-size: 2.2em; }
+            #modeShowcase p.mode-description { font-size: 1em; }
+            .mode-button-container { flex-direction: row; gap: 10px; flex-wrap: wrap; }
+            .mode-button { padding: 0.5rem; font-size: 0.9em; width: 100px; height: 100px; }
+
+            .go-to-story-button { padding: 1rem 2rem; font-size: 1em; }
+            #ourStorySection h2 { font-size: 2.5em; }
+            #storyPhoto { height: 300px; }
+            #storyCaption { font-size: 0.9em; }
+            .story-nav-button { padding: 0.6rem 1rem; font-size: 0.9em; }
+
+            #muteButton { width: 50px; height: 50px; top: 10px; right: 10px; }
+            #muteButton img { width: 30px; height: 30px; }
+
+            #unansweredQuestionScreen p { font-size: 2.5em; }
+            #cutePartScreen p { font-size: 2em; }
+            .drama-content { padding: 1.5rem; }
+            .drama-content p { font-size: 1em; }
+            #stubbornNavigationScreen p { font-size: 1.2em; }
+            #stubbornButton { padding: 1rem 2rem; font-size: 1.2em; }
+            #finalScreen p { font-size: 1.5em; }
+            #endDramaButton { padding: 1rem 2rem; font-size: 1em; }
+            #repeatMessageButton { padding: 0.8rem 1.5rem; font-size: 0.9em; }
+            #repeatClovisMessageButton { padding: 0.6rem 1rem; font-size: 0.8em; }
+            #playUnansweredMessageButton { font-size: 0.9em; padding: 0.8rem 1.5rem; }
+
+            /* Frufru page responsive */
+            #frufruPage h1 { font-size: 3em; }
+            #frufruPage p { font-size: 1.2em; }
+            #backToInitialScreenButtonFrufru { font-size: 1em; padding: 1rem 2rem; }
+            .balloon { width: 40px; height: 60px; }
+            .balloon::after { height: 60px; }
+        }
+
+        @media (max-width: 480px) {
+            #initialEntryScreen h1 { font-size: 2.2em; }
+            #initialEntryScreen h2 { font-size: 1.5em; }
+            #initialEntryScreen p { font-size: 0.9em; }
+            .sona-button-image { width: 150px; height: 150px; }
+            #enterButton { font-size: 0.9em; padding: 0.8rem 1.5rem; }
+
+            #modeShowcase h2 { font-size: 1.8em; }
+            #modeShowcase p.mode-description { font-size: 0.9em; }
+            .mode-button { padding: 0.4rem; font-size: 0.8em; width: 90px; height: 90px; }
+
+            .go-to-story-button { padding: 0.8rem 1.5rem; font-size: 0.9em; }
+            #ourStorySection h2 { font-size: 2em; }
+            #storyPhoto { height: 250px; }
+            #storyCaption { font-size: 0.8em; }
+            .story-nav-button { padding: 0.5rem 0.8rem; font-size: 0.8em; }
+
+            #muteButton { width: 45px; height: 45px; }
+            #muteButton img { width: 25px; height: 25px; }
+
+            #unansweredQuestionScreen p { font-size: 1.8em; }
+            #cutePartScreen p { font-size: 1.5em; }
+            .drama-content { padding: 1rem; }
+            .drama-content p { font-size: 0.9em; }
+            #stubbornNavigationScreen p { font-size: 1em; }
+            #stubbornButton { padding: 0.8rem 1.5rem; font-size: 1em; }
+            #finalScreen p { font-size: 1.2em; }
+            #endDramaButton { padding: 0.8rem 1.5rem; font-size: 0.9em; }
+            #repeatMessageButton { padding: 0.7rem 1.2rem; font-size: 0.8em; }
+            #repeatClovisMessageButton { padding: 0.5rem 0.8rem; font-size: 0.7em; }
+            #playUnansweredMessageButton { font-size: 0.8em; padding: 0.7rem 1.2rem; }
+
+            /* Frufru page responsive */
+            #frufruPage h1 { font-size: 2.2em; }
+            #frufruPage p { font-size: 1em; }
+            #backToInitialScreenButtonFrufru { font-size: 0.9em; padding: 0.8rem 1.5rem; }
+            .balloon { width: 30px; height: 40px; }
+            .balloon::after { height: 40px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Contêiner para as partículas de fundo (sempre presente) -->
+    <div class="particles" id="particles-background"></div>
+
+    <!-- TELA INICIAL (entrada) -->
+    <div id="initialEntryScreen">
+        <!-- Chibi Sona como botão (agora apenas visual) -->
+        <img src="https://i.imgur.com/WfJidHP.png" alt="DJ Sona Botão" class="sona-button-image">
+        <h1>CÓSMICO PULSO</h1>
+        <h2>Marcos, parabéns meu som, meu caos, meu tudo.</h2>
+        <p>
+            Aqui é luz, barulho e a gente junto no meio disso tudo. Não tem roteiro, só verdade. Cada batida é pra você, cada cor é o que sinto quando penso em nós.
+        </p>
+        <!-- O texto "Aperta aí senão vou ficar chateado." foi removido daqui -->
+        <!-- Novo botão de entrada para desbloquear o áudio -->
+        <button id="enterButton">Entrar</button>
+    </div>
+
+    <!-- SHOWCASE DE MODOS (oculta inicialmente) -->
+    <div id="modeShowcase" class="mode-showcase-container">
+        <h2>Selecione uma Vibe DJ Sona:</h2>
+        <div class="mode-button-container">
+            <button class="mode-button" data-mode="kinetic">KINETIC</button>
+            <button class="mode-button" data-mode="concussive">CONCUSSIVE</button>
+            <button class="mode-button" data-mode="ethereal">ETHEREAL</button>
+        </div>
+        <p id="modeDescription" class="mode-description text-white">Clique em um modo para ver seus efeitos!</p>
+        <!-- Reprodutor de áudio global para a música de fundo dos modos -->
+        <audio id="backgroundAudio" loop volume="0.3" preload="auto">
+            Seu navegador não suporta o elemento de áudio.
+        </audio>
+        <!-- Botão para ir para a história -->
+        <button id="goToStoryButton" class="go-to-story-button">Ir para nossa história</button>
+    </div>
+
+    <!-- 4. PERGUNTA SEM RESPOSTA (Tela Solo) -->
+    <div id="unansweredQuestionScreen">
+        <p>Será que tu tem noção do quanto tu significa pra mim?</p>
+        <!-- Novo botão para tocar a mensagem personalizada -->
+        <button id="playUnansweredMessageButton">Ouvir mensagem</button>
+        <button id="continueButtonSolo">[continuar…]</button>
+    </div>
+
+    <!-- 5. PARTE IRRITANTEMENTE FOFA (Tela Rosa/Glitch Coração) -->
+    <div id="cutePartScreen">
+        <p>"Pronto. Fiquei ridículo. Satisfeito agora?"</p>
+        <p>"Feliz aniversário, porra."</p>
+        <button id="cuteContinueButton">[Tá bom, segue]</button>
+    </div>
+
+    <!-- Pop-up "Erro de Sistema: Detecção de Drama Excessivo" -->
+    <div id="dramaDetectedModal">
+        <div class="drama-content">
+            <img src="https://i.imgur.com/7oZokuH.png" alt="Print de Conversa - Detecção de Drama">
+            <p>ERRO DE SISTEMA: DETECÇÃO DE DRAMA EXCESSIVO</p>
+            <!-- Áudio para a mensagem do Clóvis -->
+            <audio id="clovisMessageAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" preload="auto"></audio>
+            <button id="dramaCloseButton">Ok, entendi o recado.</button>
+            <button id="repeatClovisMessageButton">[Repetir Mensagem do Clóvis]</button>
+        </div>
+    </div>
+
+    <!-- 6. NAVEGAÇÃO TEIMOSA (Botão que resiste a ser clicado) -->
+    <div id="stubbornNavigationScreen">
+        <p id="stubbornMessage"></p>
+        <button id="stubbornButton">Clica aqui pra continuar</button>
+    </div>
+
+    <!-- SEÇÃO DA HISTÓRIA DE FOTOS (existente) -->
+    <div id="ourStorySection">
+        <h2>Nossa História</h2>
+        <div id="storyPhotoContainer">
+            <img id="storyPhoto" src="" alt="Nossa História">
+        </div>
+        <p id="storyCaption"></p>
+        <div class="story-nav-container">
+            <button id="storyPrev" class="story-nav-button">Anterior</button>
+            <button id="storyNext" class="story-nav-button">Próximo</button>
+        </div>
+        <!-- Áudio para a mensagem personalizada da história (um só elemento, source é trocada via JS) -->
+        <audio id="personalMessagePlayer" preload="auto"></audio>
+        <!-- O botão de repetir mensagens da história foi removido -->
+
+        <button id="backToModesButton">Voltar aos Modos</button>
+    </div>
+
+    <!-- 7. FINAL QUEBRA DE QUARTA PAREDE -->
+    <div id="finalScreen">
+        <p>Agora desliga o computador.</p>
+        <p>Me manda uma mensagem.</p>
+        <p>Quero saber tua reação.</p>
+        <p>Valeu. Te amo, seu chato.</p>
+        <button id="endDramaButton">[Encerrar Drama.exe]</button>
+        <button id="repeatMessageButton">[Repetir Mensagem]</button> <!-- Botão para repetir a mensagem final -->
+    </div>
+
+    <!-- Botão Mute/Unmute - GLOBAL -->
+    <button id="muteButton" class="mute-button" aria-label="Deixar a muda muda">
+        <img id="muteIcon" src="https://i.imgur.com/CyomOt6.png" alt="Ícone de Mudo/Desmudo">
+    </button>
+
+    <!-- NOVA PÁGINA FRUFRU DE ANIVERSÁRIO -->
+    <div id="frufruPage">
+        <h1>Parabéns, meu amor!</h1>
+        <p>
+            Que seu dia seja tão brilhante e colorido quanto os sentimentos que você me desperta. Que a alegria transborde e cada momento seja pura magia! Você merece toda a felicidade do mundo. Te amo!
+        </p>
+        <button id="backToInitialScreenButtonFrufru">Voltar ao Início</button>
+    </div>
+
+    <script>
+        // Seletores de elementos
+        const initialEntryScreen = document.getElementById('initialEntryScreen');
+        const sonaButtonImage = document.querySelector('.sona-button-image'); // Seletor para a imagem Sona
+        const enterButton = document.getElementById('enterButton');
+
+        const modeShowcase = document.getElementById('modeShowcase');
+        const modeButtons = document.querySelectorAll('.mode-button');
+        const modeDescription = document.getElementById('modeDescription');
+        const backgroundAudio = document.getElementById('backgroundAudio');
+        const clovisMessageAudio = document.getElementById('clovisMessageAudio');
+        const personalMessagePlayer = document.getElementById('personalMessagePlayer');
+
+        const playUnansweredMessageButton = document.getElementById('playUnansweredMessageButton');
+
+        const root = document.documentElement;
+        const particlesContainer = document.getElementById('particles-background');
+        const goToStoryButton = document.getElementById('goToStoryButton');
+        const ourStorySection = document.getElementById('ourStorySection');
+        const storyPhoto = document.getElementById('storyPhoto');
+        const storyCaption = document.getElementById('storyCaption');
+        const storyPrev = document.getElementById('storyPrev'); 
+        const storyNext = document.getElementById('storyNext');
+        const backToModesButton = document.getElementById('backToModesButton');
+        const muteButton = document.getElementById('muteButton');
+        const muteIcon = document.getElementById('muteIcon');
+
+        const unansweredQuestionScreen = document.getElementById('unansweredQuestionScreen');
+        const continueButtonSolo = document.getElementById('continueButtonSolo');
+        const cutePartScreen = document.getElementById('cutePartScreen');
+        const cuteContinueButton = document.getElementById('cuteContinueButton');
+        const dramaDetectedModal = document.getElementById('dramaDetectedModal');
+        const dramaCloseButton = document.getElementById('dramaCloseButton');
+        const repeatClovisMessageButton = document.getElementById('repeatClovisMessageButton');
+        const stubbornNavigationScreen = document.getElementById('stubbornNavigationScreen');
+        const stubbornButton = document.getElementById('stubbornButton');
+        const stubbornMessage = document.getElementById('stubbornMessage');
+        const finalScreen = document.getElementById('finalScreen');
+        const finalScreenParagraphs = finalScreen.querySelectorAll('p');
+        const endDramaButton = document.getElementById('endDramaButton');
+        const repeatMessageButton = document.getElementById('repeatMessageButton');
+
+        // Nova página frufru e seu botão de volta
+        const frufruPage = document.getElementById('frufruPage');
+        const backToInitialScreenButtonFrufru = document.getElementById('backToInitialScreenButtonFrufru');
+
+
+        // Variáveis de estado
+        let audioCtx;
+        let currentSelectedMode = 'kinetic';
+        let currentStoryPhotoIndex = 0;
+        let stubbornClickCount = 0;
+        let hasUserInteracted = false;
+        let unansweredMessagePlayedOnce = false;
+
+        const stubbornMessages = [
+            "Sério… clica logo.",
+            "Tá me testando, é?",
+            "Última chance.",
+            "Ok, agora tu me irritou… prossiga."
+        ];
+
+        // Definição dos modos DJ Sona com URLs de áudio e GIFs corrigidos, e novas legendas
+        const modes = {
+            kinetic: {
+                colors: {
+                    '--current-mode-primary': '#0000FF', /* Azul */
+                    '--current-mode-secondary': '#0000CD', /* Azul Médio */
+                    '--current-mode-light-pulse': 'rgba(0, 0, 255, 0.7)',
+                    '--current-mode-background-effect': 'linear-gradient(45deg, #0000FF 0%, #0000CD 100%)',
+                    '--current-mode-particle-color': '#ADD8E6' /* Azul Claro */
+                },
+                audioUrl: 'https://www.dropbox.com/scl/fi/n0ifowtuf2eigmq8l8ki9/Kinetic.mp3?rlkey=87gfngq1rva4bpbo7m3j5f6p0&st=ttgmgms6&dl=1',
+                personalMessageAudioUrl: 'https://www.dropbox.com/scl/fi/zqinz7j6onc67cn8f5jm1/udio-Ca-tico-e-Espont-neo-Kinetic-Mode.ogg?rlkey=quulch8cbu846vtm6mo579vla&st=zb4apydk&dl=1',
+                description: 'caos, riso e vontade de não parar.', // ATUALIZADO
+                animationClass: 'kinetic-mode',
+                buttonGif: 'https://i.imgur.com/EcvVGe7.gif'
+            },
+            concussive: {
+                colors: {
+                    '--current-mode-primary': '#FF0000', /* Vermelho */
+                    '--current-mode-secondary': '#8B0000', /* Vermelho Escuro */
+                    '--current-mode-light-pulse': 'rgba(255, 0, 0, 0.7)',
+                    '--current-mode-background-effect': 'radial-gradient(circle at center, rgba(255, 0, 0, 0.3) 0%, transparent 70%)',
+                    '--current-mode-particle-color': '#DC143C' /* Crimson */
+                },
+                audioUrl: 'https://www.dropbox.com/scl/fi/81ze8mo469cso13vzfsjk/Concussive.mp3?rlkey=rpi5o5yx74ru5k9w2c2jltrxh&st=hdm8pntc&dl=1',
+                personalMessageAudioUrl: 'https://www.dropbox.com/scl/fi/ezytj9uvfmqsk4btz7487/2.-udio-Intenso-e-Direto-Concussive-Mode.ogg?rlkey=u2ccs1x87tdcak54zfpik9dsr&st=7whentjg&dl=1',
+                description: 'bagunça, impacto e eu gostando disso.', // ATUALIZADO
+                animationClass: 'concussive-mode',
+                buttonGif: 'https://i.imgur.com/R976s8O.gif'
+            },
+            ethereal: {
+                colors: {
+                    '--current-mode-primary': '#8A2BE2', /* Roxo Neon */
+                    '--current-mode-secondary': '#BA55D3', /* Violeta Médio */
+                    '--current-mode-light-pulse': 'rgba(138, 43, 226, 0.7)',
+                    '--current-mode-background-effect': 'linear-gradient(135deg, #8A2BE2 0%, #BA55D3 100%)',
+                    '--current-mode-particle-color': '#DA70D6' /* Orchid */
+                },
+                audioUrl: 'https://www.dropbox.com/scl/fi/5cccucuvrlkbmrlcft920/Ethereal.mp3?rlkey=nfl1u627v9fiuaien745mku3d&st=dpw46ogl&dl=1',
+                personalMessageAudioUrl: 'https://www.dropbox.com/scl/fi/elz6cpajvcjwd9yy7k92h/udio-Calmo-e-Afofado-Ethereal-Mode.ogg?rlkey=t7ftvipe8s2lofi1beg9zp4dq&st=211kut57&dl=1',
+                description: 'leve, estranho e eu ficando bobo.', // ATUALIZADO
+                animationClass: 'ethereal-mode',
+                buttonGif: 'https://i.imgur.com/xoDdvKR.gif'
+            }
+        };
+
+        // Dados das fotos com legendas para cada modo
+        const allPhotosData = [
+            {
+                url: 'https://i.imgur.com/quSw4iY.jpeg',
+                captions: {
+                    kinetic: '20/06/2020. teu “eu te amo” foi o drop que botou a gente no ritmo. sem saber o que vinha, mas a batida já era forte.',
+                    concussive: '20/06/2020. teu “eu te amo” caiu como um soco — jogou tudo no chão e não deu volta atrás.',
+                    ethereal: '20/06/2020. teu “eu te amo” foi uma luz suave no escuro, um começo leve, que ainda brilha aqui dentro.'
+                }
+            },
+            {
+                url: 'https://i.imgur.com/msFuIcj.jpeg',
+                captions: {
+                    kinetic: 'no começo a gente tava meio sem ritmo, meio tentando se achar, mas já no compasso da nossa música.',
+                    concussive: 'começo doido, meio quebrado, meio firme, já na pegada que ia rachar.',
+                    ethereal: 'no começo era só tentação de estar junto, meio tímido, meio solto, buscando um espaço pra ficar.'
+                }
+            },
+            {
+                url: 'https://i.imgur.com/xWpWng3.jpeg',
+                captions: {
+                    kinetic: 'esse dia tava no ritmo certo. teu jeito, as risadas, as conversas que fluíam na batida.',
+                    concussive: 'dia que explodiu em memória — barulho alto, risada solta, e a gente ali forte.',
+                    ethereal: 'dia de silêncio que era só luz, risada leve, conversa que flutuava suave no ar.'
+                }
+            },
+            {
+                url: 'https://i.imgur.com/0btC7Kr.jpeg',
+                captions: {
+                    kinetic: 'teu sorriso é a batida que nunca some, a luz que sempre me puxa pro alto.',
+                    concussive: 'teu sorriso é um soco no peito que não dói, só faz o mundo calar.',
+                    ethereal: 'teu sorriso é um brilho que toca sem fazer barulho, só aquece.'
+                }
+            },
+            {
+                url: 'https://i.imgur.com/osuhZ7e.jpeg',
+                captions: {
+                    kinetic: 'a gente bonito no ritmo acelerado da vida, simples, forte, casalzão que não perde o passo.',
+                    concussive: 'a gente bonito que rasga tudo, que não tem medo de ser forte, casalzão que não deixa barato.',
+                    ethereal: 'a gente bonito flutuando junto, simples, verdadeiro, casalzão que brilha na calmaria.'
+                }
+            },
+            {
+                url: 'https://i.imgur.com/mE0znoa.jpeg',
+                captions: {
+                    kinetic: 'mais uma da gente no flow — onde a gente chega, vira palco, vira lar.',
+                    concussive: 'foto da gente que mostra a força — onde a gente pisa, o chão treme e vira casa.',
+                    ethereal: 'imagem da gente que é constelação — qualquer lugar vira lar, só por estar junto.'
+                }
+            },
+            {
+                url: 'https://i.imgur.com/tJkxNON.jpeg',
+                captions: {
+                    kinetic: 'essa tua cara que bate forte no meu som, que me prende, que me faz querer ficar aqui contigo.',
+                    concussive: 'essa tua cara que derruba minha defesa e não deixa eu fugir.',
+                    ethereal: 'essa tua expressão que me prende no silêncio, querendo só estar aqui, contigo.'
+                }
+            }
+        ];
+
+        // --- Funções de Navegação de Telas ---
+        function hideAllScreens() {
+            initialEntryScreen.style.display = 'none';
+            modeShowcase.style.display = 'none';
+            unansweredQuestionScreen.style.display = 'none';
+            cutePartScreen.style.display = 'none';
+            dramaDetectedModal.style.display = 'none';
+            stubbornNavigationScreen.style.display = 'none';
+            ourStorySection.style.display = 'none';
+            finalScreen.style.display = 'none';
+            frufruPage.style.display = 'none'; // Esconde a nova página frufru
+            muteButton.style.display = 'none';
+            
+            personalMessagePlayer.pause();
+            personalMessagePlayer.currentTime = 0;
+
+            const allScreens = [initialEntryScreen, modeShowcase, unansweredQuestionScreen, cutePartScreen, dramaDetectedModal, stubbornNavigationScreen, ourStorySection, finalScreen, frufruPage];
+            allScreens.forEach(screen => screen.classList.remove('active'));
+        }
+
+        function showScreen(screenElement, fadeIn = true) {
+            hideAllScreens();
+            screenElement.style.display = 'flex';
+            if (fadeIn) {
+                setTimeout(() => screenElement.classList.add('active'), 10);
+            } else {
+                screenElement.classList.add('active');
+            }
+            if (screenElement !== initialEntryScreen && screenElement !== frufruPage) { // Mute button only visible after initial screen OR frufruPage
+                muteButton.style.display = 'flex';
+            } else {
+                muteButton.style.display = 'none'; // Esconde o mute na tela inicial e frufru
+            }
+
+            personalMessagePlayer.pause();
+            personalMessagePlayer.currentTime = 0;
+            
+            const isPausedByDramaModal = screenElement === dramaDetectedModal;
+            const isPersonalMessagePlayingOnUnansweredScreen = (screenElement === unansweredQuestionScreen && !unansweredMessagePlayedOnce);
+            
+            if (hasUserInteracted && !backgroundAudio.muted && !isPausedByDramaModal && !isPersonalMessagePlayingOnUnansweredScreen) {
+                backgroundAudio.play().catch(e => console.warn("Erro ao retomar áudio de fundo na troca de tela.", e));
+            } else if (backgroundAudio.muted || isPausedByDramaModal || isPersonalMessagePlayingOnUnansweredScreen) {
+                backgroundAudio.pause();
+            }
+        }
+
+        function playGlitchSound() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            const oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sawtooth';
+            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+            const gainNode = audioCtx.createGain();
+            gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.05);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+        }
+
+        function playErrorSound() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            const oscillator = audioCtx.createOscillator();
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(100, audioCtx.currentTime);
+            oscillator.frequency.linearRampToValueAtTime(50, audioCtx.currentTime + 0.1);
+            const gainNode = audioCtx.createGain();
+            gainNode.gain.setValueAtTime(0.7, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.3);
+        }
+
+        function playPersonalMessageForSelectedMode() {
+            if (!hasUserInteracted || unansweredMessagePlayedOnce) return;
+
+            if (!backgroundAudio.paused && !backgroundAudio.muted) {
+                backgroundAudio.pause();
+            }
+
+            playUnansweredMessageButton.style.display = 'none';
+            unansweredMessagePlayedOnce = true;
+
+            const messageAudioUrl = modes[currentSelectedMode].personalMessageAudioUrl;
+            personalMessagePlayer.src = messageAudioUrl;
+            personalMessagePlayer.load();
+            personalMessagePlayer.currentTime = 0;
+
+            personalMessagePlayer.play().then(() => {
+            }).catch(error => {
+                console.warn("Erro ao reproduzir áudio da mensagem personalizada. Pode ser autoplay bloqueado ou link inválido.", error);
+                if (!backgroundAudio.muted) {
+                    backgroundAudio.play().catch(e => console.warn("Erro ao retomar áudio de fundo após falha da mensagem personalizada.", e));
+                }
+            });
+
+            personalMessagePlayer.onended = () => {
+                if (!backgroundAudio.muted) {
+                    backgroundAudio.play().catch(e => console.warn("Erro ao retomar áudio de fundo após mensagem personalizada.", e));
+                }
+            };
+        }
+
+        function applyMode(modeName) {
+            currentSelectedMode = modeName;
+            const mode = modes[modeName];
+            
+            document.body.classList.remove('kinetic-mode', 'concussive-mode', 'ethereal-mode');
+            particlesContainer.classList.remove('kinetic-mode-particles', 'concussive-mode-particles', 'ethereal-mode-particles');
+            document.body.classList.add('mode-active', mode.animationClass);
+            particlesContainer.classList.add(modeName + '-mode-particles');
+
+            for (const [prop, value] of Object.entries(mode.colors)) {
+                root.style.setProperty(prop, value);
+            }
+            root.style.setProperty('--current-mode-background-effect', mode.colors['--current-mode-background-effect']);
+            root.style.setProperty('--current-mode-particle-color', mode.colors['--current-mode-particle-color']);
+
+            modeDescription.textContent = mode.description;
+
+            if (backgroundAudio.src !== mode.audioUrl) {
+                backgroundAudio.src = mode.audioUrl;
+                backgroundAudio.load();
+            }
+            if (hasUserInteracted && !backgroundAudio.muted) {
+                backgroundAudio.play().catch(error => {
+                    console.warn("Autoplay de áudio do modo bloqueado. Clique para iniciar a música.", error);
+                });
+            }
+            
+            if (backgroundAudio.muted) {
+                muteButton.classList.add('muted');
+            } else {
+                muteButton.classList.remove('muted');
+            }
+
+            modeButtons.forEach(btn => {
+                const btnModeName = btn.dataset.mode;
+                const btnMode = modes[btnModeName];
+                
+                btn.style.backgroundImage = `url('${btnMode.buttonGif}')`;
+                btn.classList.remove('active');
+                if (btn.dataset.mode === modeName) {
+                    btn.classList.add('active');
+                }
+            });
+
+            goToStoryButton.style.display = 'block';
+            goToStoryButton.style.backgroundColor = mode.colors['--current-mode-primary'];
+            repeatMessageButton.style.background = `linear-gradient(90deg, ${mode.colors['--current-mode-primary']}, ${mode.colors['--current-mode-secondary']})`;
+            playUnansweredMessageButton.style.background = `linear-gradient(90deg, ${mode.colors['--current-mode-primary']}, ${mode.colors['--current-mode-secondary']})`;
+
+            renderModeParticles(modeName);
+        }
+
+        function renderModeParticles(modeName) {
+            particlesContainer.innerHTML = '';
+            const currentModeParticles = 50;
+
+            for (let i = 0; i < currentModeParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                if (modeName === 'concussive') {
+                    particle.classList.add('expand-contract');
+                } else if (modeName === 'ethereal') {
+                    particle.classList.add('soft-glow');
+                } else {
+                    // Default for 'initial' and 'kinetic' modes
+                }
+
+                const size = Math.random() * 8 + 4;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.animationDelay = `${Math.random() * -10}s`;
+                particle.style.animationDuration = `${Math.random() * 8 + 6}s`;
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function showStoryPhoto() {
+            const photoData = allPhotosData[currentStoryPhotoIndex];
+            storyPhoto.style.opacity = 0;
+            setTimeout(() => {
+                storyPhoto.src = photoData.url;
+                storyCaption.textContent = photoData.captions[currentSelectedMode];
+                storyPhoto.style.opacity = 1;
+            }, 250);
+        }
+
+        // --- Fluxo das Novas Telas ---
+
+        function showUnansweredQuestionScreen() {
+            showScreen(unansweredQuestionScreen);
+            particlesContainer.innerHTML = '';
+            const subtleParticlesCount = 20;
+            for (let i = 0; i < subtleParticlesCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.animationDelay = `${Math.random() * -20}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 15}s`;
+                particle.style.opacity = '0.15';
+                particlesContainer.appendChild(particle);
+            }
+
+            continueButtonSolo.style.display = 'none';
+            if (!unansweredMessagePlayedOnce) {
+                playUnansweredMessageButton.style.display = 'none';
+            } else {
+                playUnansweredMessageButton.style.display = 'none';
+            }
+
+            setTimeout(() => {
+                continueButtonSolo.style.display = 'block';
+                if (!unansweredMessagePlayedOnce) {
+                    playUnansweredMessageButton.style.display = 'block';
+                }
+            }, 5000);
+        }
+
+        function showCutePartScreen() {
+            showScreen(cutePartScreen);
+        }
+
+        function showDramaDetectedModal() {
+            showScreen(dramaDetectedModal);
+            backgroundAudio.pause();
+            playErrorSound();
+
+            clovisMessageAudio.currentTime = 0;
+            clovisMessageAudio.play().catch(error => {
+                console.warn("Erro ao reproduzir áudio da mensagem do Clóvis.", error);
+            });
+
+            repeatClovisMessageButton.style.display = 'none';
+
+            clovisMessageAudio.onended = () => {
+                if (!backgroundAudio.muted) {
+                    backgroundAudio.play().catch(error => console.warn("Erro ao retomar áudio de fundo após mensagem do Clóvis.", error));
+                }
+                repeatClovisMessageButton.style.display = 'block';
+            };
+        }
+
+        function showStubbornNavigationScreen() {
+            showScreen(stubbornNavigationScreen);
+            stubbornClickCount = 0;
+            stubbornMessage.textContent = "";
+            stubbornButton.textContent = "Clica aqui pra continuar";
+            renderModeParticles(currentSelectedMode);
+        }
+
+        function showFinalScreen() {
+            showScreen(finalScreen);
+            renderModeParticles(currentSelectedMode);
+
+            endDramaButton.style.display = 'none';
+            repeatMessageButton.style.display = 'none';
+
+            finalScreenParagraphs.forEach(p => {
+                p.style.opacity = 0;
+                p.style.transform = 'translateY(20px)';
+                p.style.animation = 'none';
+                p.offsetHeight;
+            });
+
+            setTimeout(() => { finalScreenParagraphs[0].style.animation = 'fadeInText 1s forwards'; }, 500);
+            setTimeout(() => { finalScreenParagraphs[1].style.animation = 'fadeInText 1s forwards'; }, 1500);
+            setTimeout(() => { finalScreenParagraphs[2].style.animation = 'fadeInText 1s forwards'; }, 2500);
+            setTimeout(() => { finalScreenParagraphs[3].style.animation = 'fadeInText 1s forwards'; }, 3500);
+
+            const totalTextAnimationDuration = 3500 + 1000;
+            setTimeout(() => {
+                if (!backgroundAudio.muted) {
+                    backgroundAudio.play().catch(e => console.warn("Erro ao tentar reproduzir áudio no final.", e));
+                }
+                endDramaButton.style.display = 'block';
+                repeatMessageButton.style.display = 'block';
+                const mode = modes[currentSelectedMode];
+                repeatMessageButton.style.background = `linear-gradient(90deg, ${mode.colors['--current-mode-primary']}, ${mode.colors['--current-mode-secondary']})`;
+            }, totalTextAnimationDuration + 500);
+        }
+
+        // --- NOVA FUNÇÃO PARA A PÁGINA FRUFRU ---
+        function showFrufruPage() {
+            showScreen(frufruPage);
+            // Gerar balões e confetes
+            generateBalloons();
+            generateConfetti();
+        }
+
+        function generateBalloons() {
+            // Limpa balões existentes para evitar duplicação
+            frufruPage.querySelectorAll('.balloon').forEach(b => b.remove()); 
+            const colors = ['#FFC0CB', '#ADD8E6', '#FFFFE0', '#FF69B4', '#8A2BE2']; // Rosa, Azul claro, Amarelo claro, Rosa choque, Roxo
+            for (let i = 0; i < 15; i++) {
+                const balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.setProperty('--balloon-color', randomColor);
+                balloon.style.left = `${Math.random() * 100}vw`;
+                balloon.style.animationDelay = `${Math.random() * -10}s`; // Começa em momentos diferentes
+                balloon.style.setProperty('--float-duration', `${Math.random() * 10 + 15}s`);
+                balloon.style.setProperty('--float-x-offset', `${(Math.random() - 0.5) * 50}px`); // Pequeno desvio lateral inicial
+                balloon.style.setProperty('--float-drift', `${(Math.random() - 0.5) * 100}px`); // Desvio lateral durante o voo
+                frufruPage.appendChild(balloon);
+            }
+        }
+
+        function generateConfetti() {
+            // Limpa confetes existentes
+            frufruPage.querySelectorAll('.confetti').forEach(c => c.remove());
+            const colors = ['#FFC0CB', '#ADD8E6', '#FFFFE0', '#FF69B4', '#8A2BE2'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.setProperty('--confetti-color', randomColor);
+                const size = Math.random() * 10 + 5;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animationDelay = `${Math.random() * -5}s`;
+                confetti.style.setProperty('--fall-duration', `${Math.random() * 5 + 5}s`);
+                confetti.style.setProperty('--confetti-drift', `${(Math.random() - 0.5) * 200}px`);
+                frufruPage.appendChild(confetti);
+            }
+        }
+
+
+        // --- Event Listeners ---
+
+        // Evento de clique na imagem da Sona para a página Frufru
+        sonaButtonImage.addEventListener('click', () => {
+            playGlitchSound();
+            hasUserInteracted = true; // Garante que interage para autoplay de áudio futuro
+            showFrufruPage();
+        });
+
+        // Evento de clique no botão "Entrar" (leva para a seleção de modos)
+        enterButton.addEventListener('click', () => {
+            playGlitchSound();
+            hasUserInteracted = true;
+            showScreen(modeShowcase);
+            applyMode('kinetic');
+        });
+
+        // Eventos de clique para os botões de modo
+        modeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                applyMode(button.dataset.mode);
+            });
+        });
+
+        // Evento de clique no botão "Ir para nossa história"
+        goToStoryButton.addEventListener('click', () => {
+            backgroundAudio.pause();
+            showUnansweredQuestionScreen();
+        });
+
+        // Evento de clique do botão [continuar…] na tela solo
+        continueButtonSolo.addEventListener('click', () => {
+            showCutePartScreen();
+        });
+
+        // Evento de clique do botão [Tá bom, segue] na tela fofa
+        cuteContinueButton.addEventListener('click', () => {
+            showDramaDetectedModal();
+        });
+
+        // Evento de clique do botão de fechar no pop-up de drama
+        dramaCloseButton.addEventListener('click', () => {
+            dramaDetectedModal.classList.remove('active');
+            clovisMessageAudio.pause();
+            clovisMessageAudio.currentTime = 0;
+
+            setTimeout(() => {
+                dramaDetectedModal.style.display = 'none';
+                showStubbornNavigationScreen();
+            }, 500);
+        });
+
+        // Evento para o novo botão "Repetir Mensagem do Clóvis"
+        repeatClovisMessageButton.addEventListener('click', () => {
+            backgroundAudio.pause();
+            clovisMessageAudio.currentTime = 0;
+            clovisMessageAudio.play().catch(error => {
+                console.warn("Erro ao reproduzir áudio da mensagem do Clóvis novamente.", error);
+            });
+        });
+
+        // Evento de clique do botão teimoso
+        stubbornButton.addEventListener('click', () => {
+            stubbornClickCount++;
+            if (stubbornClickCount <= stubbornMessages.length) {
+                stubbornMessage.textContent = stubbornMessages[stubbornClickCount - 1];
+            } else {
+                showScreen(ourStorySection);
+                currentStoryPhotoIndex = 0;
+                showStoryPhoto();
+            }
+        });
+
+        // Eventos de navegação na história
+        storyPrev.addEventListener('click', () => {
+            currentStoryPhotoIndex = (currentStoryPhotoIndex - 1 + allPhotosData.length) % allPhotosData.length;
+            showStoryPhoto();
+        });
+
+        storyNext.addEventListener('click', () => {
+            if (currentStoryPhotoIndex === allPhotosData.length - 1) {
+                showFinalScreen();
+            } else {
+                currentStoryPhotoIndex = (currentStoryPhotoIndex + 1) % allPhotosData.length;
+                showStoryPhoto();
+            }
+        });
+
+        // Evento para o botão "Voltar aos Modos" (na seção da história)
+        backToModesButton.addEventListener('click', () => {
+            showScreen(modeShowcase);
+        });
+
+        // Evento para o botão "Ouvir mensagem" na tela da pergunta
+        playUnansweredMessageButton.addEventListener('click', () => {
+            playPersonalMessageForSelectedMode();
+        });
+
+        // Evento de clique para o botão de Mute/Unmute
+        muteButton.addEventListener('click', () => {
+            backgroundAudio.muted = !backgroundAudio.muted;
+            if (backgroundAudio.muted) {
+                muteButton.classList.add('muted');
+                backgroundAudio.pause();
+            } else {
+                muteButton.classList.remove('muted');
+                const currentlyActiveScreen = document.querySelector('div[style*="display: flex"]');
+                const isPausedByDramaModal = currentlyActiveScreen === dramaDetectedModal;
+                const isPersonalMessagePlayingOnUnansweredScreen = (currentlyActiveScreen === unansweredQuestionScreen && !unansweredMessagePlayedOnce);
+
+                if (hasUserInteracted && !isPausedByDramaModal && !isPersonalMessagePlayingOnUnansweredScreen) {
+                    backgroundAudio.play().catch(e => console.warn("Erro ao tentar reproduzir áudio.", e));
+                }
+            }
+        });
+
+        // Evento para o botão "Repetir Mensagem" (da tela final)
+        repeatMessageButton.addEventListener('click', () => {
+            showScreen(modeShowcase);
+            applyMode(currentSelectedMode); 
+        });
+
+        // Evento para o botão final "Encerrar Drama.exe" para linkar ao WhatsApp
+        endDramaButton.addEventListener('click', () => {
+            backgroundAudio.pause();
+            clovisMessageAudio.pause();
+            personalMessagePlayer.pause();
+            window.location.href = 'https://wa.me/5585999864434?text=parabens%2C%20tu%20conseguiu%20me%20deixar%20sem%20fala%20e%20quase%20chorando%20aqui%2C%20dramatico%20do%20caralho%2C%20mas%20eu%20te%20amo%20mesmo%20assim%2C%20seu%20doido';
+        });
+
+        // Evento para o botão "Voltar ao Início" da página Frufru
+        backToInitialScreenButtonFrufru.addEventListener('click', () => {
+            showScreen(initialEntryScreen);
+        });
+
+        // Opcional: Pausar áudio se a tab perder o foco
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                backgroundAudio.pause();
+                clovisMessageAudio.pause();
+                personalMessagePlayer.pause();
+            } else {
+                const currentlyActiveScreen = document.querySelector('div[style*="display: flex"]');
+                const isPausedByDramaModal = currentlyActiveScreen === dramaDetectedModal;
+                const isPersonalMessagePlayingOnUnansweredScreen = (currentlyActiveScreen === unansweredQuestionScreen && !personalMessagePlayer.paused && personalMessagePlayer.duration > 0 && !unansweredMessagePlayedOnce);
+                
+                if (currentlyActiveScreen === dramaDetectedModal && !clovisMessageAudio.paused && !clovisMessageAudio.ended && !clovisMessageAudio.muted) {
+                     clovisMessageAudio.play().catch(e => console.warn("Erro ao retomar áudio do Clóvis ao retornar à aba.", e));
+                } else if (isPersonalMessagePlayingOnUnansweredScreen) {
+                    personalMessagePlayer.play().catch(e => console.warn("Erro ao retomar áudio da mensagem pessoal ao retornar à aba.", e));
+                } else if (hasUserInteracted && !backgroundAudio.muted && !isPausedByDramaModal) {
+                     backgroundAudio.play().catch(e => console.warn("Erro ao tentar reproduzir áudio ao retornar à aba.", e));
+                }
+            }
+        });
+
+        // Geração de partículas apenas para a tela inicial ao carregar (se visível)
+        document.addEventListener('DOMContentLoaded', () => {
+            modeButtons.forEach(btn => {
+                const btnModeName = btn.dataset.mode;
+                const btnMode = modes[btnModeName];
+                if (btnMode && btnMode.buttonGif) {
+                    btn.style.backgroundImage = `url('${btnMode.buttonGif}')`;
+                }
+            });
+
+            if (initialEntryScreen.style.display !== 'none') {
+                const initialParticlesCount = 30;
+                for (let i = 0; i < initialParticlesCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    const size = Math.random() * 6 + 4;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${Math.random() * 100}vw`;
+                    particle.style.top = `${Math.random() * 100}vh`;
+                    particle.style.animationDelay = `${Math.random() * -6}s`;
+                    particle.style.animationDuration = `${Math.random() * 4 + 6}s`;
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            hideAllScreens();
+            initialEntryScreen.style.display = 'flex';
+        });
+    </script>
+</body>
+</html>
